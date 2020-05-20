@@ -12,3 +12,6 @@ TODO
 - Communicating with osascript from golang: [mack](https://github.com/andybrewer/mack)
 - [Bundling go applications for mac (Medium Article)](https://medium.com/@mattholt/packaging-a-go-application-for-macos-f7084b00f6b5)
 - Create file with touch: https://golang.org/pkg/os/exec/
+
+## Attributions
+"Icon made by Pixel perfect from www.flaticon.com"
