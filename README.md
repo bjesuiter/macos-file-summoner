@@ -7,6 +7,8 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 
 TODO 
 
-## Used Libraries 
+## Used Libraries & Tutorials
 
-https://github.com/andybrewer/mack => for communicating with osascript from golang
+- Communicating with osascript from golang: [mack](https://github.com/andybrewer/mack)
+- [Bundling go applications for mac (Medium Article)](https://medium.com/@mattholt/packaging-a-go-application-for-macos-f7084b00f6b5)
+- Create file with touch: https://golang.org/pkg/os/exec/
