@@ -14,4 +14,5 @@ TODO
 - Create file with touch: https://golang.org/pkg/os/exec/
 
 ## Attributions
-"Icon made by Pixel perfect from www.flaticon.com"
+- "Icon made by Pixel perfect from www.flaticon.com"
+- Iconset generated with http://www.img2icnsapp.com/
