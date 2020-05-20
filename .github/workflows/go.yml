@@ -9,7 +9,7 @@ on:
 jobs:
 
   build:
-    name: Create Release
+    name: Build App & Create Release
     runs-on: ubuntu-latest
     steps:
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 EXECUTABLE=macos-file-summoner
 BUILD_DIR=build
