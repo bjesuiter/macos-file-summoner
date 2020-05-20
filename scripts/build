@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+EXECUTABLE=macos-file-summoner
+BUILD_DIR=build
+DIST_DIR=dist
+
+go build -o ${BUILD_DIR}/${EXECUTABLE} .
+
+# clean dist folder
+rm -rf ${DIST_DIR}
+mkdir ${DIST_DIR}
+
+#copy mac-app-template to dist
+cp -R "mac-app-template/File Summoner.app" ${DIST_DIR}
+
+# copy binary into out/mac-app-template
+cp ${BUILD_DIR}/${EXECUTABLE} "${DIST_DIR}/File Summoner.app/Contents/MacOS/"
