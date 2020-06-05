@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: 'File Summoner.app'
-        path: '${{ env.distDir }}/File Summoner.app'
+        path: '${{ env.distDir }}'
   
   deploy:
    
