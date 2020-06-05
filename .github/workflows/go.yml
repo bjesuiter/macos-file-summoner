@@ -11,15 +11,14 @@ on:
         - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
   macosAppArtifact: 'File Summoner.app' 
+  distDir: dist 
 
 jobs:
   
   build:
     name: Build App
-    runs-on: macos-latest
-    env:
-      distDir: dist 
-      
+    runs-on: macos-latest      
+
     steps:
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
@@ -45,7 +44,7 @@ jobs:
     - name: Store macOS App as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: '${{ env.macosAppArtifact}}'
+        name: '${{ env.distDir}}'
         path: '${{ env.distDir }}'
         
     - name: Show content of github.ref
@@ -69,10 +68,10 @@ jobs:
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
-        name: '${{ env.macosAppArtifact}}'
+        name: '${{ env.distDir}}'
     
     - name: Zip Artifact
-      run:  zip -r "${{ env.zipName }}" "${{ env.macosAppArtifact }}"
+      run:  zip -r "${{ env.zipName }}" "${{ env.distDir }}"
 
     - name: Create Release
       id: create-release
