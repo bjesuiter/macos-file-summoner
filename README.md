@@ -35,10 +35,10 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 
 # Changelog 
 
-## v1.0.4 
+## v1.0.5
 - Add support for cross-compile for this mac app to be built correctly on gihub actions (probably linux servers)
 
-## v1.0.1 - v1.0.2 - v1.0.3
+## v1.0.1 - v1.0.2 - v1.0.3 - v1.0.4
 - Versions for testing Github Action Building
 
 ## v1.0.0 

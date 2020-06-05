@@ -4,7 +4,9 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
       branches:
-        - master
+        # Note: Don't use master here, since this pipeline would be triggered for master 
+        # even when a new tag comes in, which breaks the deployment job condition
+        - github-workflow-adjustment
       tags:
         - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
