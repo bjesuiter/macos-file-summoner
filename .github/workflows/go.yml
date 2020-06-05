@@ -4,22 +4,21 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
       branches:
-        # Note: Don't use master here, since this pipeline would be triggered for master 
-        # even when a new tag comes in, which breaks the deployment job condition
-        - github-workflow-adjustment
+        # Note: One commit on master with a tag will trigger the pipeline twice 
+        # (although one time in build-only mode and with the tag in deploy mode)
+        - master
       tags:
         - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+env:
+  macosAppArtifact: 'File Summoner.app' 
 
 jobs:
-
+  
   build:
     name: Build App
     runs-on: macos-latest
     env:
-      executable: macos-file-summoner
-      buildDir: build
       distDir: dist 
-      macosAppArtifact: 'File Summoner.app' 
     steps:
 
     - name: Set up Go 1.x
