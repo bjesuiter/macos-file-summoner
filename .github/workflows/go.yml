@@ -17,6 +17,7 @@ jobs:
       executable: macos-file-summoner
       buildDir: build
       distDir: dist 
+      macosAppArtifact: 'File Summoner.app' 
     steps:
 
     - name: Set up Go 1.x
@@ -43,25 +44,32 @@ jobs:
     - name: Store macOS App as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: 'File Summoner.app'
+        name: '${{ env.macosAppArtifact}}'
         path: '${{ env.distDir }}'
+        
+    - name: Show content of github.ref
+      run: echo "github.ref ${{github.ref}}"
   
   deploy:
    
     name: Deploy App
-    runs-on: ubuntu-latest
-    if: contains(github.ref, 'refs/tags')
     needs: [build]
+    if: startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
     
     steps:
+    - name: Download macOS App Artifact
+      uses: actions/download-artifact@v1
+      with: 
+        name: '${{ env.macosAppArtifact}}'
     
     - name: Zip Artifact
       run: |
-        zip -r --junk-paths File.Summoner.app.zip dist/File\ Summoner.app
+        zip -r --junk-paths ${{ env.macosAppArtifact}}.zip ${{ env.macosAppArtifact}}
 
     - name: Create Release
       id: create-release
-      uses: actions/create-release@v1
+      uses: actions/create-release@v1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
@@ -80,6 +88,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./File.Summoner.app.zip
-        asset_name: File.Summoner.app.zip
+        asset_path: ./${{ env.macosAppArtifact}}.zip
+        asset_name: ${{ env.macosAppArtifact}}.zip
         asset_content_type: application/zip
