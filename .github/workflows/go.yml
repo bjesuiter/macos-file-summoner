@@ -19,8 +19,8 @@ jobs:
     runs-on: macos-latest
     env:
       distDir: dist 
+      
     steps:
-
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
@@ -52,7 +52,6 @@ jobs:
       run: echo "github.ref ${{github.ref}}"
   
   deploy:
-   
     name: Deploy App
     needs: [build]
     if: startsWith(github.ref, 'refs/tags')
@@ -62,17 +61,18 @@ jobs:
     - name: Extract tag name
       id: tagName
       run: echo ::set-env name=tagName::$(echo ${GITHUB_REF} | cut -d / -f 3)
+
     - name: Set zip name env var
       id: zipName
       run: echo ::set-env name=zipName::$(echo "macos-file-summoner-${tagName}.zip");
+
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
         name: '${{ env.macosAppArtifact}}'
     
     - name: Zip Artifact
-      run: |
-        zip -r --junk-paths "${{ env.zipName }}" "${{ env.macosAppArtifact }}"
+      run:  zip -r "${{ env.zipName }}" "${{ env.macosAppArtifact }}"
 
     - name: Create Release
       id: create-release
