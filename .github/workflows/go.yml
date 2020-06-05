@@ -64,15 +64,13 @@ jobs:
       uses: actions/github-script@0.2.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          echo "::set-env name=tagName::context.payload.ref.replace(/\/refs\/tags\//, '')";
+        run: echo ::set-env name=TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
     - name: Set zip name env var
       id: zipName
       uses: actions/github-script@0.2.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          echo "::set-env name=zipName::macos-file-summoner-${{env.tagName}}.zip";
+        run: echo ::set-env name=ZIP_NAME::$(echo "macos-file-summoner-${TAG_NAME}.zip");
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
