@@ -3,6 +3,8 @@
 EXECUTABLE=macos-file-summoner
 BUILD_DIR=build
 DIST_DIR=dist
+GOOS=darwin
+GOARCH=amd64
 
 go build -o ${BUILD_DIR}/${EXECUTABLE} .
 
