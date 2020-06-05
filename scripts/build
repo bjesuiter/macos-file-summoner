@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-EXECUTABLE=macos-file-summoner
-BUILD_DIR=build
-DIST_DIR=dist
+EXECUTABLE=${EXECUTABLE:-macos-file-summoner}
+BUILD_DIR=${BUILD_DIR:-build}
+DIST_DIR=${DIST_DIR:-dist}
 GOOS=darwin
 GOARCH=amd64
 
