@@ -61,10 +61,10 @@ jobs:
     steps:
     - name: Extract tag name
       id: tagName
-      run: echo ::set-env name=TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
+      run: echo ::set-env name=tagName::$(echo ${GITHUB_REF} | cut -d / -f 3)
     - name: Set zip name env var
       id: zipName
-      run: echo ::set-env name=ZIP_NAME::$(echo "macos-file-summoner-${TAG_NAME}.zip");
+      run: echo ::set-env name=zipName::$(echo "macos-file-summoner-${tagName}.zip");
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
@@ -81,7 +81,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        release_name: Release ${{ env.tagName }}
         body: |
           Changes in this Release
           - <<to add>>
@@ -95,6 +95,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./${{ env.macosAppArtifact}}.zip
-        asset_name: ${{ env.macosAppArtifact}}.zip
+        asset_path: ./${{ env.zipName }}
+        asset_name: ${{ env.zipName }}
         asset_content_type: application/zip
