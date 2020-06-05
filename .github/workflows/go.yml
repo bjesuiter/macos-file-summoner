@@ -56,20 +56,18 @@ jobs:
     name: Deploy App
     needs: [build]
     if: startsWith(github.ref, 'refs/tags')
-    env: 
-      zipName: ${{format('macos-file-summoner-{0}.zip', )}}
     runs-on: ubuntu-latest
     
     steps:
     - name: Extract tag name
-      id: tag
+      id: tagName
       uses: actions/github-script@0.2.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           echo "::set-env name=tagName::context.payload.ref.replace(/\/refs\/tags\//, '')";
     - name: Set zip name env var
-      id: tag
+      id: zipName
       uses: actions/github-script@0.2.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
