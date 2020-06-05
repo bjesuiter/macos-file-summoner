@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleExecutable</key>
-	<string>macos-file-summoner</string>
-	<key>CFBundleIconFile</key>
-	<string>icon.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>de.benjamin-jesuiter.macos-file-summoner</string>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>LSUIElement</key>
-	<true/>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0.3</string>
-</dict>
+	<dict>
+		<key>CFBundleExecutable</key>
+		<string>macos-file-summoner</string>
+		<key>CFBundleIconFile</key>
+		<string>icon.icns</string>
+		<key>CFBundleIdentifier</key>
+		<string>de.benjamin-jesuiter.macos-file-summoner</string>
+		<key>NSHighResolutionCapable</key>
+		<true/>
+		<key>LSUIElement</key>
+		<true/>
+		<key>CFBundleShortVersionString</key>
+		<string>1.0.4</string>
+	</dict>
 </plist>
