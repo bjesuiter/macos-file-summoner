@@ -13,6 +13,10 @@ jobs:
   build:
     name: Build App
     runs-on: macos-latest
+    env:
+      EXECUTABLE: macos-file-summoner
+      BUILD_DIR: build
+      DIST_DIR: dist 
     steps:
 
     - name: Set up Go 1.x
@@ -32,11 +36,15 @@ jobs:
             dep ensure
         fi
 
-    - name: Build
+    - name: Build Binary & macOS App
       id: go-build
       run: ./scripts/build
-
-
+    
+    - name: Store macOS App as Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: "File Summoner.app"
+        path: "env.DIST_DIR/File Summoner.app"
   
   deploy:
    
