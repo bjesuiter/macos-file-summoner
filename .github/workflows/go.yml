@@ -14,9 +14,9 @@ jobs:
     name: Build App
     runs-on: macos-latest
     env:
-      EXECUTABLE: macos-file-summoner
-      BUILD_DIR: build
-      DIST_DIR: dist 
+      executable: macos-file-summoner
+      buildDir: build
+      distDir: dist 
     steps:
 
     - name: Set up Go 1.x
@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: 'File Summoner.app'
-        path: '${{ env.executable }}/File Summoner.app'
+        path: '${{ env.distDir }}/File Summoner.app'
   
   deploy:
    
