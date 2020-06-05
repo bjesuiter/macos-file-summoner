@@ -61,12 +61,10 @@ jobs:
     steps:
     - name: Extract tag name
       id: tagName
-      with:
-        run: echo ::set-env name=TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
+      run: echo ::set-env name=TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
     - name: Set zip name env var
       id: zipName
-      with:
-        run: echo ::set-env name=ZIP_NAME::$(echo "macos-file-summoner-${TAG_NAME}.zip");
+      run: echo ::set-env name=ZIP_NAME::$(echo "macos-file-summoner-${TAG_NAME}.zip");
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
