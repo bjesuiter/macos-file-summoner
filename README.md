@@ -33,13 +33,18 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 
 ------------------------------------------------
 
+*Note: Releases marked with XXX are broken and only for github actions testing*
+
 # Changelog 
 
-## v1.0.5
+## v1.0.6
 - Add support for cross-compile for this mac app to be built correctly on gihub actions (probably linux servers)
 
-## v1.0.1 - v1.0.2 - v1.0.3 - v1.0.4
-- Versions for testing Github Action Building
+## XXX v1.0.5
+## XXX v1.0.4
+## XXX v1.0.3
+## XXX v1.0.2
+## XXX v1.0.1
 
 ## v1.0.0 
 - initial Release 
