@@ -3,20 +3,22 @@ name: Go Build & Release
 on:
   push:
     # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      branches:
+        - master
+      tags:
+        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
 
   build:
-    name: Build App & Create Release
-    runs-on: ubuntu-latest
+    name: Build App
+    runs-on: macos-latest
     steps:
 
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
-        go-version: ^1.13
+        go-version: ^1.14
       id: go
 
     - name: Check out code into the Go module directory
@@ -34,6 +36,17 @@ jobs:
       id: go-build
       run: ./scripts/build
 
+
+  
+  deploy:
+   
+    name: Deploy App
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'refs/tags')
+    needs: [build]
+    
+    steps:
+    
     - name: Zip Artifact
       run: |
         zip -r --junk-paths File.Summoner.app.zip dist/File\ Summoner.app
