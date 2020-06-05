@@ -56,9 +56,25 @@ jobs:
     name: Deploy App
     needs: [build]
     if: startsWith(github.ref, 'refs/tags')
+    env: 
+      zipName: ${{format('macos-file-summoner-{0}.zip', )}}
     runs-on: ubuntu-latest
     
     steps:
+    - name: Extract tag name
+      id: tag
+      uses: actions/github-script@0.2.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          echo "::set-env name=tagName::context.payload.ref.replace(/\/refs\/tags\//, '')";
+    - name: Set zip name env var
+      id: tag
+      uses: actions/github-script@0.2.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          echo "::set-env name=zipName::macos-file-summoner-${{env.tagName}}.zip";
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
@@ -66,7 +82,7 @@ jobs:
     
     - name: Zip Artifact
       run: |
-        zip -r --junk-paths "${{ env.macosAppArtifact }}.zip" "${{ env.macosAppArtifact }}"
+        zip -r --junk-paths "${{ env.zipName }}" "${{ env.macosAppArtifact }}"
 
     - name: Create Release
       id: create-release
