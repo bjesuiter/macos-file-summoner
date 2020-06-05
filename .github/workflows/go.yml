@@ -71,7 +71,7 @@ jobs:
         name: '${{ env.distDir}}'
     
     - name: Zip Artifact
-      run:  zip -r "${{ env.zipName }}" "${{ env.distDir }}"
+      run: cd ${{ env.distDir }} && zip -r "${{ env.zipName }}" "${{env.macosAppArtifact}}"
 
     - name: Create Release
       id: create-release
@@ -94,6 +94,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./${{ env.zipName }}
+        asset_path: ./${{ env.distDir }}/${{ env.zipName }}
         asset_name: ${{ env.zipName }}
         asset_content_type: application/zip
