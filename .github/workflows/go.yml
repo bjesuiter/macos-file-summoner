@@ -57,9 +57,9 @@ jobs:
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
-        name: '${{ env.distDir}}'
+        name: '${{ env.distDir }}'
     
-    - run: create-dmg --overwrite ${DIST_DIR}/*.app
+    - run: create-dmg --overwrite ${{ env.distDir }}/*.app
     
     - name: Store macOS DMG as Artifact
       uses: actions/upload-artifact@v2
