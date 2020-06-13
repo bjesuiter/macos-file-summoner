@@ -17,25 +17,17 @@ jobs:
   
   build:
     name: Build App
-    runs-on: macos-latest      
+    runs-on: ubuntu-latest      
 
     steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.14
-      id: go
-
-    - name: Check out code into the Go module directory
+    - name: Check out code from Github
       uses: actions/checkout@v2
 
-    - name: Get dependencies
-      run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      id: go-install
+      with:
+        go-version: '^1.14.3'
 
     - name: Build Binary & macOS App
       id: go-build
