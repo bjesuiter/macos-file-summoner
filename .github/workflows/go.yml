@@ -59,7 +59,7 @@ jobs:
       with: 
         name: '${{ env.distDir}}'
     
-    - run: ./scripts/package-dmg
+    - run: create-dmg --overwrite ${DIST_DIR}/*.app
     
     - name: Store macOS DMG as Artifact
       uses: actions/upload-artifact@v2
