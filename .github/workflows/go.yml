@@ -10,9 +10,9 @@ on:
       tags:
         - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
-  macosAppArtifact: 'File Summoner.app' 
-  distDir: dist 
-  dmgArtifactName: 'macos-dmg'
+  MACOS_APP_ARTIFACT: 'File Summoner.app' 
+  DIST_DIR: dist 
+  MACOS_DMG_ARTIFACT_ID: 'macos-dmg'
 
 jobs:
   
@@ -36,8 +36,8 @@ jobs:
     - name: Store macOS App as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: '${{ env.distDir}}'
-        path: '${{ env.distDir }}'
+        name: '${{ env.DIST_DIR}}'
+        path: '${{ env.DIST_DIR }}'
         
     - name: Show content of github.ref
       run: echo "github.ref ${{github.ref}}"
@@ -49,20 +49,29 @@ jobs:
     # already installed software: https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     steps: 
       # Node already installed
+    - uses: actions/checkout@v2
     - run: npm install --global create-dmg
     - run: brew install graphicsmagick imagemagick
 
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
-        name: '${{ env.distDir }}'
+        name: '${{ env.DIST_DIR }}'
     
-    - run: create-dmg --overwrite ${{ env.distDir }}/*.app
+    # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
+    - uses: apple-actions/import-codesign-certs@v1
+      with: 
+        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+        p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+
+    # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
+    # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
+    - run: ./scripts/package-dmg.sh '${{secrets.APPLE_DEVELOPER_ID_NAME}}'
     
     - name: Store macOS DMG as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: '${{ env.dmgArtifactName }}'
+        name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
         path: '*.dmg'
 
   deploy:
@@ -81,7 +90,7 @@ jobs:
       run: echo ::set-env name=zipName::$(echo "macos-file-summoner-${tagName}.zip");
     
     - name: Zip Artifact
-      run: cd ${{ env.distDir }} && zip -r "${{ env.zipName }}" "${{env.macosAppArtifact}}"
+      run: cd ${{ env.DIST_DIR }} && zip -r "${{ env.zipName }}" "${{env.MACOS_APP_ARTIFACT}}"
 
     - name: Create Release
       id: create-release
@@ -104,6 +113,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./${{ env.distDir }}/${{ env.zipName }}
+        asset_path: ./${{ env.DIST_DIR }}/${{ env.zipName }}
         asset_name: ${{ env.zipName }}
         asset_content_type: application/zip
