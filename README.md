@@ -27,15 +27,31 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 - "Icon made by Pixel perfect from www.flaticon.com"
 - Iconset generated with http://www.img2icnsapp.com/
 
-## Todos
-
-- improve icon to better fit macOS Finder style
-
 ------------------------------------------------
-
-*Note: Releases marked with XXX are broken and only for github actions testing*
 
 # Changelog 
 
+## next
+- Fixes Problem with release build on github
+- switch to dmg for deployment
+
 ## v1.1.0 
 - initial Release 
+
+------------------------------------------------
+
+# Readme for Developers
+
+## New Version release 
+1. increase version in Info.plist 
+2. Update changelog in Readme.md 
+3. Commit this changes as 'Release vx.x.x'
+4. Tag this release with 'vx.x.x'
+5. Upload this tag to github with 'git push --tags' 
+
+## Todos
+- improve icon to better fit macOS Finder style
+- Add i18n to the app based on the language of the host macos 
+
+## Ideas 
+- Implement a better designed 'new File' Dialog based on [Gio](https://gioui.org/)
