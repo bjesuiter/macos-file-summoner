@@ -50,7 +50,7 @@ jobs:
     steps: 
       # Node already installed
     - uses: actions/checkout@v2
-    - run: npm install --global create-dmg
+    - run: npm install --global create-dmg json
     - run: brew install graphicsmagick imagemagick
 
     - name: Download macOS App Artifact
@@ -66,7 +66,17 @@ jobs:
 
     # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
     # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
-    - run: ./scripts/package-dmg.sh '${{secrets.APPLE_DEVELOPER_ID_NAME}}'
+    - run: ./scripts/package-dmg.sh
+      env: 
+        APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
+
+    - name: Update DMG Name in Notarization config
+      run:  json -I -f scripts/gon-dmg.json -e "this.notarize[0].path='File Summoner $(cat ./version).dmg'"
+
+    - name: Notarize DMG
+      run: ./scripts/notarize-dmg.sh
+      env: 
+        APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
     
     - name: Store macOS DMG as Artifact
       uses: actions/upload-artifact@v2
