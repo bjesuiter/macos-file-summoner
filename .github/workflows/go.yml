@@ -12,6 +12,7 @@ on:
 env:
   macosAppArtifact: 'File Summoner.app' 
   distDir: dist 
+  dmgArtifactName: 'macos-dmg'
 
 jobs:
   
@@ -41,9 +42,34 @@ jobs:
     - name: Show content of github.ref
       run: echo "github.ref ${{github.ref}}"
   
-  deploy:
-    name: Deploy App
+  package: 
+    name: Create DMG
     needs: [build]
+    runs-on: ubuntu-latest  
+    steps: 
+      
+    - uses: actions/setup-node@v2-beta
+       with:
+         node-version: '14'
+
+    - run: npm install --global create-dmg
+
+    - name: Download macOS App Artifact
+      uses: actions/download-artifact@v1
+      with: 
+        name: '${{ env.distDir}}'
+    
+    - run: create-dmg ${{ env.distDir}}/${{macosAppArtifact}}
+    
+    - name: Store macOS DMG as Artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: '${{ env.dmgArtifactName}}'
+      path: '*.dmg'
+
+  deploy:
+    name: Deploy Release
+    needs: [package]
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     
@@ -55,11 +81,6 @@ jobs:
     - name: Set zip name env var
       id: zipName
       run: echo ::set-env name=zipName::$(echo "macos-file-summoner-${tagName}.zip");
-
-    - name: Download macOS App Artifact
-      uses: actions/download-artifact@v1
-      with: 
-        name: '${{ env.distDir}}'
     
     - name: Zip Artifact
       run: cd ${{ env.distDir }} && zip -r "${{ env.zipName }}" "${{env.macosAppArtifact}}"
