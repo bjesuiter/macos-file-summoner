@@ -31,7 +31,7 @@ jobs:
 
     - name: Build Binary & macOS App
       id: go-build
-      run: ./scripts/build
+      run: ./scripts/build.sh
     
     - name: Store macOS App as Artifact
       uses: actions/upload-artifact@v2
@@ -46,13 +46,11 @@ jobs:
     name: Create DMG
     needs: [build]
     runs-on: macOS-latest
+    # already installed software: https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     steps: 
-      
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '14'
-
+      # Node already installed
     - run: npm install --global create-dmg
+    - run: brew install graphicsmagick imagemagick
 
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
