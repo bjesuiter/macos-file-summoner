@@ -7,8 +7,8 @@ DIST_DIR=${DIST_DIR:-dist}
 echo 'Check GOOS and GOARCH before setting the variables...'
 go env GOOS GOARCH
 
-GOOS=darwin
-GOARCH=amd64
+export GOOS=darwin
+export GOARCH=amd64
 
 echo 'Check GOOS and GOARCH after setting the variables...'
 go env GOOS GOARCH
