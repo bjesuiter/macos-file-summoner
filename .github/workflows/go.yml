@@ -52,8 +52,9 @@ jobs:
     - uses: actions/checkout@v2
     # The json package is used for the notarization step
     - run: npm install --global create-dmg json
-    # These brew packages improve the image generated for the dmg
-    - run: brew install graphicsmagick imagemagick
+    # These brew packages improve the image generated for the dmg & gon is used in notarization
+    - run: brew tap mitchellh/gon
+    - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
 
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
