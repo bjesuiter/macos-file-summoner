@@ -7,7 +7,7 @@ notarize {
 
 apple_id {
   username = "bjesuiter@gmail.com"
-  password = "@env:APPLE_ACCOUNT_GON_PASSWORD"
+  password = "@env:APPLE_ACCOUNT_APP_PASSWORD"
 }
 
 
