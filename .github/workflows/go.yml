@@ -48,9 +48,11 @@ jobs:
     runs-on: macOS-latest
     # already installed software: https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     steps: 
-      # Node already installed
+    # Node already installed
     - uses: actions/checkout@v2
+    # The json package is used for the notarization step
     - run: npm install --global create-dmg json
+    # These brew packages improve the image generated for the dmg
     - run: brew install graphicsmagick imagemagick
 
     - name: Download macOS App Artifact
@@ -66,14 +68,12 @@ jobs:
 
     # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
     # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
-    - run: ./scripts/package-dmg.sh
+    - name: Package DMG with sindresorhus create-dmg
+      run: ./scripts/package-dmg.sh
       env: 
         APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
 
-    - name: Update DMG Name in Notarization config
-      run:  json -I -f scripts/gon-dmg.json -e "this.notarize[0].path='File Summoner $(cat ./version).dmg'"
-
-    - name: Notarize DMG
+    - name: Notarize DMG with gon-cli
       run: ./scripts/notarize-dmg.sh
       env: 
         APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
