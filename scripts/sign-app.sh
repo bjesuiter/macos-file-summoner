@@ -12,7 +12,7 @@ codesign --deep --force --verbose --options runtime --sign "BB38WRH6VJ" ${DIST_D
 echo '> validate signature itself ...'
 
 # Check, whether the signature is valid 
-codesign --verify -vvvv ${DIST_DIR}/*.app
+codesign --verify -vvvv --deep --strict ${DIST_DIR}/*.app
 
 # Check, whether the certificate used for the signature is valid
 # Not working anymore, since apple requires notarization
