@@ -6,14 +6,11 @@ on:
 
 jobs:
 
-    import: 
-        name: Import Apple Signing Certificate
+    notarization: 
+        name: Test notarization config adjustment
         runs-on: macOS-latest
         steps: 
-        # - uses: actions/checkout@v2
-        - uses: apple-actions/import-codesign-certs@v1
-          with: 
-            p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
-            p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
-
-        - run: security find-identity -v
+        - uses: actions/checkout@v2
+        - run: npm install --global json
+        - name: Update DMG Name in Notarization config
+          run:  json -I -f scripts/gon-dmg.json -e "this.notarize[0].path='File Summoner $(cat ./version).dmg'"
