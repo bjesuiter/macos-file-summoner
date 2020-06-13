@@ -14,3 +14,5 @@ jobs:
         - run: npm install --global json
         - name: Update DMG Name in Notarization config
           run:  json -I -f scripts/gon-dmg.json -e "this.notarize[0].path='File Summoner $(cat ./version).dmg'"
+        - name: See content of scripts/gon-dmg.json
+          run: cat scripts/gon-dmg.json
