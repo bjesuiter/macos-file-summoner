@@ -52,6 +52,7 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 ## Todos
 - improve icon to better fit macOS Finder style
 - Add i18n to the app based on the language of the host macos 
+- copy the string in ./version' into the 'Info.plist' file for the app to avoid manual version updating in Info.plist
 
 ## Ideas 
 - Implement a better designed 'new File' Dialog based on [Gio](https://gioui.org/)
