@@ -8,6 +8,8 @@
 		<string>icon.icns</string>
 		<key>CFBundleIdentifier</key>
 		<string>de.benjamin-jesuiter.macos-file-summoner</string>
+		<key>CFBundleDisplayName</key>
+		<string>File Summoner</string>
 		<key>NSHighResolutionCapable</key>
 		<true/>
 		<key>LSUIElement</key>
