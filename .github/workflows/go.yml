@@ -45,7 +45,7 @@ jobs:
   package: 
     name: Create DMG
     needs: [build]
-    runs-on: ubuntu-latest  
+    runs-on: macOS-latest
     steps: 
       
     - uses: actions/setup-node@v2-beta
