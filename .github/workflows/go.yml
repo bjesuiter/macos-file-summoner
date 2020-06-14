@@ -102,6 +102,12 @@ jobs:
       env: 
         APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
       
+    ###--Overwrite app artifact with signed variant--###
+    - name: Store dist folder with macOS App as Github Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: '${{ env.DIST_DIR}}'
+        path: '${{ env.DIST_DIR }}'
 
     ###--Package & Notarize DMG--###
     # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
