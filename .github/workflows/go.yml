@@ -13,12 +13,24 @@ env:
   MACOS_APP_ARTIFACT: 'File Summoner.app' 
   DIST_DIR: dist 
   MACOS_DMG_ARTIFACT_ID: 'macos-dmg'
+  BRANCH_OR_TAG_NAME: '<will be set in prepare job>'
 
 jobs:
+
+  prepare:
+    name: Prepare Environment
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v2
+    - name: Extract branch/tag name
+      run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
+    - name: Show content of github.ref
+      run: echo "github.ref ${{github.ref}}"
+
   
   build:
-    name: Build App
-    runs-on: ubuntu-latest      
+    name: Build & Sign & Notarize App
+    runs-on: macOS-latest    
 
     steps:
     - uses: actions/checkout@v2
@@ -35,13 +47,11 @@ jobs:
       with:
         name: '${{ env.DIST_DIR}}'
         path: '${{ env.DIST_DIR }}'
-        
-    - name: Show content of github.ref
-      run: echo "github.ref ${{github.ref}}"
   
   package: 
     name: Create DMG
     needs: [build]
+    if: startsWith(github.ref, 'refs/tags')
     runs-on: macOS-latest
     # already installed software: https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     steps: 
@@ -49,9 +59,6 @@ jobs:
     - uses: actions/checkout@v2
    
     ###--Restore Caches--###
-    - name: Extract branch/tag name
-      run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
-
     - name: Cache node modules
       uses: actions/cache@v2
       env:
