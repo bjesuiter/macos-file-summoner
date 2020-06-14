@@ -16,5 +16,5 @@ codesign --verify -vvvv --deep --strict ${DIST_DIR}/*.app
 
 # Check, whether the certificate used for the signature is valid
 # Not working anymore, since apple requires notarization
-echo '> validate certificate (Note: The app is correctly unnotarized at this point) ...'
+echo '> validate certificate (Note: The app should be signed at this point but is probably not notarized) ...'
 spctl -a -vvvv ${DIST_DIR}/*.app
