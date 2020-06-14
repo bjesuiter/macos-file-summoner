@@ -1,0 +1,13 @@
+{
+  "notarize": [
+    {
+      "path": "File Summoner.app",
+      "bundle_id": "de.benjamin-jesuiter.macos-file-summoner",
+      "staple": true
+    }
+  ],
+  "apple_id": {
+    "username": "bjesuiter@gmail.com",
+    "password": "@env:APPLE_ACCOUNT_APP_PASSWORD"
+  }
+}
