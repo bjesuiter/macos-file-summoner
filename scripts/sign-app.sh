@@ -14,6 +14,5 @@ echo '> validate signature itself ...'
 codesign --verify -vvvv --deep --strict ${DIST_DIR}/*.app
 
 # Check, whether the certificate used for the signature is valid
-# Not working anymore, since apple requires notarization
-echo '> validate certificate used for the signature (Note: The app should be signed at this point but is probably not notarized) ...'
-spctl -a -vvvv ${DIST_DIR}/*.app
+# DO NOT ENABLE THIS IN GITHUB ACTIONS -> has an exit code which is not 0 because the .app itself is not notarized at this point
+# spctl -a -vvvv ${DIST_DIR}/*.app
