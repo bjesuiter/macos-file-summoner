@@ -29,7 +29,7 @@ jobs:
 
   
   build:
-    name: Build & Sign & Notarize App
+    name: Build & Sign App
     runs-on: macOS-latest    
 
     steps:
@@ -41,6 +41,18 @@ jobs:
 
     - name: Build Binary & macOS App 
       run: ./scripts/build.sh
+
+    ###--Sign Application--###
+    # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
+    - uses: apple-actions/import-codesign-certs@v1
+      with: 
+        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+        p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+
+    - name: Sign macOS app with codesign tool
+      run: ./scripts/sign-app.sh 
+      env: 
+        APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
     
     - name: Store dist folder with macOS App as Github Artifact
       uses: actions/upload-artifact@v2
@@ -97,24 +109,14 @@ jobs:
       with: 
         name: '${{ env.DIST_DIR }}'
     
-    ###--Sign Application--###
-    # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
-    - uses: apple-actions/import-codesign-certs@v1
-      with: 
-        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
-        p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
-
-    - name: Sign macOS app with codesign tool
-      run: ./scripts/sign-app.sh 
-      env: 
-        APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
+    
       
     ###--Overwrite app artifact with signed variant--###
-    - name: Store dist folder with macOS App as Github Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: '${{ env.DIST_DIR}}'
-        path: '${{ env.DIST_DIR }}'
+    # - name: Store dist folder with macOS App as Github Artifact
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: '${{ env.DIST_DIR}}'
+    #     path: '${{ env.DIST_DIR }}'
 
     ###--Package & Notarize DMG--###
     # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
