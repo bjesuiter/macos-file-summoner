@@ -23,17 +23,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      id: go-install
+    - uses: actions/setup-go@v2
       with:
         go-version: '^1.14.3'
 
-    - name: Build Binary & macOS App
-      id: go-build
+    - name: Build Binary & macOS App 
       run: ./scripts/build.sh
     
-    - name: Store macOS App as Artifact
+    - name: Store dist folder with macOS App as Github Artifact
       uses: actions/upload-artifact@v2
       with:
         name: '${{ env.DIST_DIR}}'
@@ -50,23 +47,63 @@ jobs:
     steps: 
     # Node already installed
     - uses: actions/checkout@v2
+   
+    ###--Restore Caches--###
+    - name: Extract branch/tag name
+      run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # npm cache files are stored in `~/.npm` on Linux/macOS
+        path: ~/.npm
+        key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
+        restore-keys: |
+          master-${{ runner.os }}-${{ env.cache-name }}
+
+    - name: Get Homebrew cache dir 
+      id: homebrew_cache_dir
+      run: ::set-output name={path}::{$(brew --cache)}
+        
+    - name: Cache homebrew modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-homebrew-modules
+      with:
+        path: ${{ steps.homebrew_cache_dir.outputs.path }}
+        key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
+        restore-keys: |
+          master-${{ runner.os }}-${{ env.cache-name }}
+
+    ###--Install Dependencies--###
     # The json package is used for the notarization step
     - run: npm install --global create-dmg json
     # These brew packages improve the image generated for the dmg & gon is used in notarization
     - run: brew tap mitchellh/gon
     - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
 
+    ###--Download macOS App Artifact--###
     - name: Download macOS App Artifact
       uses: actions/download-artifact@v1
       with: 
         name: '${{ env.DIST_DIR }}'
     
+    ###--Sign Application--###
     # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
     - uses: apple-actions/import-codesign-certs@v1
       with: 
         p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
         p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
 
+    - name: Sign macOS app with codesign tool
+      run: ./scripts/sign-app.sh 
+      env: 
+        APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
+      
+
+    ###--Package & Notarize DMG--###
     # This action needs a github secret called MACOS_DEVELOPER_ID which contains a certificate identifier for a signing certificate in the macos keystore,
     # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
     - name: Package DMG with sindresorhus create-dmg
