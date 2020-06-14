@@ -65,7 +65,7 @@ jobs:
 
     - name: Get Homebrew cache dir 
       id: homebrew_cache_dir
-      run: ::set-output name={path}::{$(brew --cache)}
+      run: echo ::set-output name=path::$(brew --cache)
         
     - name: Cache homebrew modules
       uses: actions/cache@v2
