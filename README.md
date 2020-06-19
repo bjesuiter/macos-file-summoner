@@ -32,8 +32,15 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 # Changelog 
 
 ## next
-- Fixes Problem with release build on github
-- switch to dmg for deployment
+- Completely signed and notarized app, which will run without security issues on your mac! *️⃣ 
+- Distribution via beautiful,signed and notarized dmg file! 
+
+*️⃣ 
+The App will run flawlessly as long as my developer certificate is valid!
+If I would have a Patreon or so, you could support me to ensure future validity of this certificate!  
+Unfortunately, I don't have any pages in place yet for supporting me.  
+But when I do, I'll let you know! 
+
 
 ## v1.1.0 
 - initial Release 
@@ -53,6 +60,8 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 - improve icon to better fit macOS Finder style
 - Add i18n to the app based on the language of the host macos 
 - copy the string in ./version' into the 'Info.plist' file for the app to avoid manual version updating in Info.plist
+- github actions build does not work when downloaded from github (no .app, no .dmg) 
+    - TODO: make zip of .app and notarize this => Test again
 
 ## Ideas 
 - Implement a better designed 'new File' Dialog based on [Gio](https://gioui.org/)
