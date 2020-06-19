@@ -167,7 +167,7 @@ jobs:
           name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
 
       - name: Extract DMG Release Asset Name
-        run: echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
+        run: cd ${{ env.MACOS_DMG_ARTIFACT_ID }} && echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
 
       - name: Create Release
         id: create-release
