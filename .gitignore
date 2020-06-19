@@ -3,6 +3,8 @@
 dist
 build
 *.dmg
+*.zip
+
 
 
 # Created by https://www.gitignore.io/api/go,macos
