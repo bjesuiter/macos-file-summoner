@@ -1,9 +1,9 @@
 {
   "notarize": [
     {
-      "path": "File Summoner.app",
+      "path": "File Summoner.app.zip",
       "bundle_id": "de.benjamin-jesuiter.macos-file-summoner",
-      "staple": true
+      "staple": false
     }
   ],
   "apple_id": {
