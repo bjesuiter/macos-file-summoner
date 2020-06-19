@@ -3,188 +3,186 @@ name: Go Build & Release
 on:
   push:
     # Sequence of patterns matched against refs/tags
-      branches:
-        # Note: One commit on master with a tag will trigger the pipeline twice 
-        # (although one time in build-only mode and with the tag in deploy mode)
-        - master
-      tags:
-        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches:
+      # Note: One commit on master with a tag will trigger the pipeline twice
+      # (although one time in build-only mode and with the tag in deploy mode)
+      - master
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
-  MACOS_APP_ARTIFACT: 'File Summoner.app' 
-  DIST_DIR: dist 
+  MACOS_APP_ARTIFACT: 'File Summoner.app'
+  DIST_DIR: dist
   MACOS_DMG_ARTIFACT_ID: 'file-summoner.dmg'
-  BRANCH_OR_TAG_NAME: '<will be set in prepare job>',
+  BRANCH_OR_TAG_NAME: '<will be set in prepare job>'
   MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy job>'
 
 jobs:
-
   prepare:
     name: Prepare Environment
     runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@v2
-    - name: Extract branch/tag name
-      run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
-    - name: Show content of github.ref
-      run: echo "github.ref ${{github.ref}}"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Extract branch/tag name
+        run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
+      - name: Show content of github.ref
+        run: echo "github.ref ${{github.ref}}"
 
-  
   build:
     name: Build, Sign & Notarize App
-    runs-on: macOS-latest    
+    runs-on: macOS-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    # Install notarization dependencies
-    - run: npm install --global json
-    - run: brew tap mitchellh/gon
-    - run: brew install mitchellh/gon/gon
+      # Install notarization dependencies
+      - run: npm install --global json
+      - run: brew tap mitchellh/gon
+      - run: brew install mitchellh/gon/gon
 
-    - uses: actions/setup-go@v2
-      with:
-        go-version: '^1.14.3'
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.14.3'
 
-    - name: Build Binary & macOS App 
-      run: ./scripts/01-build.sh
+      - name: Build Binary & macOS App
+        run: ./scripts/01-build.sh
 
-    ### --Sign Application-- ###
-    # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
-    - uses: apple-actions/import-codesign-certs@v1
-      with: 
-        p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
-        p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+      ### --Sign Application-- ###
+      # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
+      - uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+          p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
 
-    - name: Sign macOS app with codesign tool
-      run: ./scripts/02-sign-app.sh 
-      env: 
-        APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
+      - name: Sign macOS app with codesign tool
+        run: ./scripts/02-sign-app.sh
+        env:
+          APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
 
-    ### --Notarize Application --##
-    - name: Notarize App with gon-cli
-      run: ./scripts/03-notarize-app.sh
-      env: 
-        APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
-    
-    ### --Validate Signature --###
-    - name: Validate App Signature
-      run: ./scripts/04-check-app-signature.sh
-    
-    ### --Store App Artifact--###
-    - name: Store dist folder with macOS App as Github Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: '${{ env.DIST_DIR}}'
-        path: '${{ env.DIST_DIR }}'
-  
-  package: 
+      ### --Notarize Application --##
+      - name: Notarize App with gon-cli
+        run: ./scripts/03-notarize-app.sh
+        env:
+          APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
+
+      ### --Validate Signature --###
+      - name: Validate App Signature
+        run: ./scripts/04-check-app-signature.sh
+
+      ### --Store App Artifact--###
+      - name: Store dist folder with macOS App as Github Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: '${{ env.DIST_DIR}}'
+          path: '${{ env.DIST_DIR }}'
+
+  package:
     name: Create DMG
     needs: [build]
-    # already installed software on macos-latest worker node:  
+    # already installed software on macos-latest worker node:
     # https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
-    # Interesting for this workflow: 
-    # - homebrew 
+    # Interesting for this workflow:
+    # - homebrew
     # - node
     runs-on: macOS-latest
-    steps: 
-    - uses: actions/checkout@v2
-   
-    ###--Restore Caches--###
-    - name: Cache node modules
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
-      with:
-        # npm cache files are stored in `~/.npm` on Linux/macOS
-        path: ~/.npm
-        key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
-        restore-keys: |
-          master-${{ runner.os }}-${{ env.cache-name }}
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Get Homebrew cache dir 
-      id: homebrew_cache_dir
-      run: echo ::set-output name=path::$(brew --cache)
-        
-    - name: Cache homebrew modules
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-homebrew-modules
-      with:
-        path: ${{ steps.homebrew_cache_dir.outputs.path }}
-        key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
-        restore-keys: |
-          master-${{ runner.os }}-${{ env.cache-name }}
+      ###--Restore Caches--###
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
+          restore-keys: |
+            master-${{ runner.os }}-${{ env.cache-name }}
 
-    ###--Install Dependencies--###
-    # The json package is used for notarization, create-dmg util is obvious
-    - run: npm install --global create-dmg json
-    - run: brew tap mitchellh/gon
-    # These brew packages improve the image generated for the dmg & gon is used in notarization
-    - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
+      - name: Get Homebrew cache dir
+        id: homebrew_cache_dir
+        run: echo ::set-output name=path::$(brew --cache)
 
-    ###--Download macOS App Artifact--###
-    - name: Download macOS App Artifact
-      uses: actions/download-artifact@v1
-      with: 
-        name: '${{ env.DIST_DIR }}'
+      - name: Cache homebrew modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-homebrew-modules
+        with:
+          path: ${{ steps.homebrew_cache_dir.outputs.path }}
+          key: ${{env.BRANCH_OR_TAG_NAME}}-${{runner.os}}-${{ env.cache-name }}
+          restore-keys: |
+            master-${{ runner.os }}-${{ env.cache-name }}
 
-    ###--Package & Notarize DMG--###
-    # This action needs a github secret called MACOS_DEVELOPER_ID 
-    # which contains a certificate identifier for a signing certificate in the macos keystore,
-    # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
-    - name: Package DMG with sindresorhus create-dmg
-      run: ./scripts/package-dmg.sh
-      env: 
-        APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
+      ###--Install Dependencies--###
+      # The json package is used for notarization, create-dmg util is obvious
+      - run: npm install --global create-dmg json
+      - run: brew tap mitchellh/gon
+      # These brew packages improve the image generated for the dmg & gon is used in notarization
+      - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
 
-    - name: Notarize DMG with gon-cli
-      run: ./scripts/notarize-dmg.sh
-      env: 
-        APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
-    
-    - name: Store macOS DMG as Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
-        path: '*.dmg'
+      ###--Download macOS App Artifact--###
+      - name: Download macOS App Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: '${{ env.DIST_DIR }}'
+
+      ###--Package & Notarize DMG--###
+      # This action needs a github secret called MACOS_DEVELOPER_ID
+      # which contains a certificate identifier for a signing certificate in the macos keystore,
+      # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
+      - name: Package DMG with sindresorhus create-dmg
+        run: ./scripts/package-dmg.sh
+        env:
+          APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
+
+      - name: Notarize DMG with gon-cli
+        run: ./scripts/notarize-dmg.sh
+        env:
+          APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
+
+      - name: Store macOS DMG as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
+          path: '*.dmg'
 
   deploy:
     name: Deploy Release
     needs: [package]
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
-    
+
     steps:
-    ### --Download macOS DMG Artifact-- ###
-    - name: Download macOS DMG Artifact
-      uses: actions/download-artifact@v1
-      with: 
-        name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
+      ### --Download macOS DMG Artifact-- ###
+      - name: Download macOS DMG Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
 
-    - name: Extract DMG Release Asset Name 
-      run: echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
+      - name: Extract DMG Release Asset Name
+        run: echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
 
-    - name: Create Release
-      id: create-release
-      uses: actions/create-release@v1.1.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
-        body: |
-          #### Changes in this Release
-          TODO
-        draft: true
-        prerelease: false
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
+          body: |
+            #### Changes in this Release
+            TODO
+          draft: true
+          prerelease: false
 
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./${{ env.MACOS_DMG_ARTIFACT_NAME }}
-        asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
-        asset_content_type: application/octet-stream
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./${{ env.MACOS_DMG_ARTIFACT_NAME }}
+          asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
+          asset_content_type: application/octet-stream
