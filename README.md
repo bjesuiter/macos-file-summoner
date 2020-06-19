@@ -65,3 +65,6 @@ But when I do, I'll let you know!
 
 ## Ideas 
 - Implement a better designed 'new File' Dialog based on [Gio](https://gioui.org/)
+- Add more 'File Creators' besides simple 'touch' 
+    - essential for Microsoft Office files
+    - for example, creating my-document.docx with "File Summoner.app" currently results in a broken file
