@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-EXECUTABLE=${EXECUTABLE:-macos-file-summoner}
-BUILD_DIR=${BUILD_DIR:-build}
+# Input Vars
 DIST_DIR=${DIST_DIR:-dist}
+MACOS_APP_ARTIFACT=${MACOS_APP_ARTIFACT:-'File Summoner.app'}
+
+# Local Vars
+EXECUTABLE=macos-file-summoner
+BUILD_DIR=build
 
 echo 'Check GOOS and GOARCH before setting the variables...'
 go env GOOS GOARCH
@@ -21,7 +25,13 @@ rm -rf ${DIST_DIR}
 mkdir ${DIST_DIR}
 
 echo 'copy mac-app-template/File Summoner.app to dist...'
-cp -R "mac-app-template/File Summoner.app" ${DIST_DIR}
+cp -R "mac-app-template/File Summoner.app" ${DIST_DIR}/
 
-echo 'copy go binary into dist/File Summoner.app/Contents/MacOS/'
-cp ${BUILD_DIR}/${EXECUTABLE} "${DIST_DIR}/File Summoner.app/Contents/MacOS/"
+# Rename the distribution App to the name defined in MACOS_APP_ARTIFACT
+mv "${DIST_DIR}/File Summoner.app" "${DIST_DIR}/${MACOS_APP_ARTIFACT}"
+
+echo "copy go binary into ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/"
+cp ${BUILD_DIR}/${EXECUTABLE} "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/"
+
+echo "cleanup placeholder for binary: ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/.insert-binary-here"
+rm -f "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/.insert-binary-here"
