@@ -10,7 +10,9 @@ DIST_DIR=${DIST_DIR:-dist}
 MACOS_APP_ARTIFACT=${MACOS_APP_ARTIFACT:-'File Summoner.app'}
 APPLE_DEVELOPER_ID_CODE=${APPLE_DEVELOPER_ID_CODE:-BB38WRH6VJ}
 
-log 'sign mac app ...'
+# logs the script name
+log "-- $(basename ${0}) --"
+
 # Codesign is a xcode utility to signing mac apps via comand line
 # Note: the '--options runtime' flag enables the macOS hardened runtime, 
 #       which is needed for notarization

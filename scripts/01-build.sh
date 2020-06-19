@@ -13,6 +13,9 @@ MACOS_APP_ARTIFACT=${MACOS_APP_ARTIFACT:-'File Summoner.app'}
 EXECUTABLE=macos-file-summoner
 BUILD_DIR=build
 
+# logs the script name
+log "-- $(basename ${0}) --"
+
 log 'Check GOOS and GOARCH before setting the variables...'
 go env GOOS GOARCH
 
