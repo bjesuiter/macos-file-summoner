@@ -50,7 +50,7 @@ But when I do, I'll let you know!
 # Readme for Developers
 
 ## New Version release 
-1. increase version in Info.plist 
+1. increase version in Info.plist & ./version
 2. Update changelog in Readme.md 
 3. Commit this changes as 'Release vx.x.x'
 4. Tag this release with 'vx.x.x'
