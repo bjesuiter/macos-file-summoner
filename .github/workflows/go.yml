@@ -130,6 +130,13 @@ jobs:
       # This action needs a github secret called MACOS_DEVELOPER_ID
       # which contains a certificate identifier for a signing certificate in the macos keystore,
       # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
+
+      # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
+      - uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+          p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+
       - name: Package DMG with sindresorhus create-dmg
         run: ./scripts/package-dmg.sh
         env:
