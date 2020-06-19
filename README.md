@@ -26,6 +26,8 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 ## Attributions
 - "Icon made by Pixel perfect from www.flaticon.com"
 - Iconset generated with http://www.img2icnsapp.com/
+- DMG created with [create-dmg by Sindre Sorhus](https://www.npmjs.com/package/create-dmg)
+- App and DMG notarizations done with [mitchellh/gon](https://github.com/mitchellh/gon)
 
 ------------------------------------------------
 
