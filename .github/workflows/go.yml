@@ -30,7 +30,7 @@ jobs:
         run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
 
       - name: Set APP_VERSION env var
-        run: echo ::set-env name=APP_VERSION::$(echo cat ./version)
+        run: echo ::set-env name=APP_VERSION::$(cat ./version)
 
       - name: Set MACOS_APP_ZIP env var
         run: echo ::set-env name=MACOS_APP_ZIP::$(echo ${MACOS_APP_ARTIFACT}-${APP_VERSION}.zip)
