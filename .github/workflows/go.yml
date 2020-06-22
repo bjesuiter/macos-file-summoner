@@ -88,7 +88,9 @@ jobs:
 
   package:
     name: Create DMG
-    if: ${{env.DMG_DELIVERY}}
+    # Using this env var fails for syntactical reasons of github actions
+    # if: ${{env.DMG_DELIVERY}}
+    if: false
     needs: [build]
     # already installed software on macos-latest worker node:
     # https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
