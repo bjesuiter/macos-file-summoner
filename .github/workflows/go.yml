@@ -33,7 +33,7 @@ jobs:
         run: echo ::set-env name=APP_VERSION::$(echo cat ./version)
 
       - name: Set MACOS_APP_ZIP env var
-        run: echo ::set-env name=MACOS_APP_ZIP::$(echo ${MACOS_APP_ARTIFACT}-${APP_VERSION}.zip")
+        run: echo ::set-env name=MACOS_APP_ZIP::$(echo ${MACOS_APP_ARTIFACT}-${APP_VERSION}.zip)
 
       - name: Show content of github.ref (for debugging purposes)
         run: echo "github.ref ${{github.ref}}"
