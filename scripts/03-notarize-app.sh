@@ -16,9 +16,7 @@ function log() {
 # Since this does not have any default value, it is not created here
 DIST_DIR=${DIST_DIR:-dist}
 MACOS_APP_ARTIFACT=${MACOS_APP_ARTIFACT:-'File Summoner.app'}
-
-# Local Vars
-MACOS_APP_ZIP="${MACOS_APP_ARTIFACT}.zip"
+MACOS_APP_ZIP=${MACOS_APP_ZIP:-$(echo "${MACOS_APP_ARTIFACT}.zip")}
 
 # logs the script name
 log "-- $(basename ${0}) --"

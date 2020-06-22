@@ -11,10 +11,13 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
   MACOS_APP_ARTIFACT: 'File Summoner.app'
-  DIST_DIR: dist
-  MACOS_DMG_ARTIFACT_ID: 'file-summoner.dmg'
+  MACOS_APP_ZIP: '<will be set in prepare step>'
+  APP_VERSION: '<will be set in prepare step>'
   BRANCH_OR_TAG_NAME: '<will be set in prepare job>'
+  DIST_DIR: 'dist'
+  MACOS_DMG_ARTIFACT_ID: 'file-summoner.dmg'
   MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy job>'
+  DMG_DELIVERY: false
 
 jobs:
   prepare:
@@ -22,9 +25,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Extract branch/tag name
         run: echo ::set-env name=BRANCH_OR_TAG_NAME::$(echo ${GITHUB_REF} | cut -d / -f 3)
-      - name: Show content of github.ref
+
+      - name: Set MACOS_APP_ZIP env var
+        run: echo ::set-env name=MACOS_APP_ZIP::$(echo ${{MACOS_APP_ARTIFACT}}-${{APP_VERSION}}.zip")
+
+      - name: Set APP_VERSION env var
+        run: echo ::set-env name=APP_VERSION::$(echo ${{cat ./version}})
+
+      - name: Show content of github.ref (for debugging purposes)
         run: echo "github.ref ${{github.ref}}"
 
   build:
@@ -77,6 +88,7 @@ jobs:
 
   package:
     name: Create DMG
+    if: ${{env.DMG_DELIVERY}}
     needs: [build]
     # already installed software on macos-latest worker node:
     # https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
@@ -153,12 +165,11 @@ jobs:
           name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
           path: '*.dmg'
 
-  deploy:
-    name: Deploy Release
-    needs: [package]
-    if: startsWith(github.ref, 'refs/tags')
+  deploy-dmg:
+    name: Deploy Release with DMG
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags') && ${{env.DMG_DELIVERY}}
     runs-on: ubuntu-latest
-
     steps:
       ### --Download macOS DMG Artifact-- ###
       - name: Download macOS DMG Artifact
@@ -168,6 +179,49 @@ jobs:
 
       - name: Extract DMG Release Asset Name
         run: cd ${{ env.MACOS_DMG_ARTIFACT_ID }} && echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
+
+      - name: Create Release
+      id: create-release
+      uses: actions/create-release@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
+        body: |
+          #### Changes in this Release
+          TODO
+        draft: true
+        prerelease: false
+
+      - name: Upload Release DMG
+      id: upload-release-dmg
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./${{ env.MACOS_DMG_ARTIFACT_ID }}/${{ env.MACOS_DMG_ARTIFACT_NAME }}
+        asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
+        asset_content_type: application/octet-stream
+
+  deploy-zip:
+    name: Deploy Release with Zip
+    # change 'build' in the next statement to 'package' as soon as dmg delivery works
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags') && ! ${{env.DMG_DELIVERY}}
+    runs-on: ubuntu-latest
+
+    steps:
+      ###--Download macOS App Artifact--###
+      - name: Download macOS App Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: '${{ env.DIST_DIR }}'
+
+      - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
+
+      - run: ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
 
       - name: Create Release
         id: create-release
@@ -183,13 +237,13 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Upload Release Asset
-        id: upload-release-asset
+      - name: Upload Release Zip
+        id: upload-release-zip
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./${{ env.MACOS_DMG_ARTIFACT_ID }}/${{ env.MACOS_DMG_ARTIFACT_NAME }}
-          asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
-          asset_content_type: application/octet-stream
+          asset_path: ./${{ env.MACOS_APP_ZIP }}
+          asset_name: ${{ env.MACOS_APP_ZIP }}
+          asset_content_type: application/zip
