@@ -34,16 +34,14 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 
 # Changelog
 
-## next
+## v1.2.0
 
-- Completely signed and notarized app, which will run without security issues on your mac! \*️⃣
+- Completely signed and notarized app, which will run without security issues on your mac! \*️
 - Distribution via beautiful,signed and notarized dmg file!
 
-\*️⃣
-The App will run flawlessly as long as my developer certificate is valid!
-If I would have a Patreon or so, you could support me to ensure future validity of this certificate!  
-Unfortunately, I don't have any pages in place yet for supporting me.  
-But when I do, I'll let you know!
+> \* ️
+> As long as my apple developer certificate is valid.  
+> Ways to support me will be available in the future, so that I can continue to pay the anual fee for the apple developer certificate.
 
 ## v1.1.0
 
@@ -55,7 +53,7 @@ But when I do, I'll let you know!
 
 ## New Version release
 
-1. increase version in Info.plist & ./version
+1. increase version in Info.plist & ./version file
 2. Update changelog in Readme.md
 3. Commit this changes as 'Release vx.x.x'
 4. Tag this release with 'vx.x.x'
