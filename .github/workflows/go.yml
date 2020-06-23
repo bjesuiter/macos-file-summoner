@@ -92,6 +92,9 @@ jobs:
       - name: Validate App Signature
         run: ./scripts/04-check-app-signature.sh
 
+      - name: Check & Fix execute permission (Debug only)
+        run: ./scripts/fix-execute-flag.sh ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner
+
       ### --Store App Artifact--###
       - name: Store dist folder with macOS App as Github Artifact
         uses: actions/upload-artifact@v2
@@ -232,6 +235,8 @@ jobs:
     runs-on: macOS-latest
     env:
       MACOS_APP_ZIP: ${{needs.prepare.outputs.macosAppZip}}
+      APP_VERSION: ${{needs.prepare.outputs.appVersion}}
+      BRANCH_OR_TAG_NAME: ${{needs.prepare.outputs.branchOrTagName}}
 
     steps:
       ###--Download macOS App Artifact--###
@@ -240,8 +245,10 @@ jobs:
         with:
           name: '${{ env.DIST_DIR }}'
 
-      - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
+      - name: Check & Fix execute permission (only for debugging)
+        run: ./scripts/fix-execute-flag.sh ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner
 
+      - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
       - run: ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
 
       - name: Create Release
