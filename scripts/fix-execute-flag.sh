@@ -7,15 +7,15 @@
 EXECUTABLE_PATH=${1}
 
 echo "Testing input file whether it's exec flag (-x) is set or not"
-echo Input File: ${EXECUTABLE_PATH}
+echo Input File: "${EXECUTABLE_PATH}"
 
 if [[ -x ${EXECUTABLE_PATH} ]]
 then
     echo 'File is executable'
 else 
     echo 'File is NOT executable, attempting chmod...'
-    chmod +x ${EXECUTABLE_PATH}
-    if [[ -x ${EXECUTABLE_PATH} ]]
+    chmod +x "${EXECUTABLE_PATH}"
+    if [[ -x "${EXECUTABLE_PATH}" ]]
     then
         echo "File is NOW executable!"
     else 
