@@ -223,8 +223,8 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
           body: |
-            #### Changes in this Release
-            TODO
+            ### Changes
+            TODO: Copy from Readme
           draft: true
           prerelease: false
 

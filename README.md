@@ -37,7 +37,7 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 ## v1.2.0
 
 - Completely signed and notarized app, which will run without security issues on your mac! \*️
-- Distribution via beautiful,signed and notarized dmg file!
+- Distribution via beautiful, signed and notarized dmg file!
 
 > \* ️
 > As long as my apple developer certificate is valid.  
@@ -58,6 +58,10 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 3. Commit this changes as 'Release vx.x.x'
 4. Tag this release with 'vx.x.x'
 5. Upload this tag to github with 'git push --tags'
+6. Adjust Release Publish on Github
+   - generate another random Emoji to mark the release (for better readability)  
+     https://perchance.org/emoji
+   - Add Changes in this release
 
 ## Todos
 
