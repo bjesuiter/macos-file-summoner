@@ -12,9 +12,7 @@ on:
 env:
   MACOS_APP_ARTIFACT: 'File Summoner.app'
   DIST_DIR: 'dist'
-  MACOS_DMG_ARTIFACT_ID: 'file-summoner.dmg'
-  MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy job>'
-  DMG_DELIVERY: false
+  MACOS_DMG_ARTIFACT_ID: 'file-summoner-dmg-artifact'
 
 jobs:
   prepare:
@@ -106,18 +104,34 @@ jobs:
     name: Create DMG
     # Using this env var fails for syntactical reasons of github actions
     # if: ${{env.DMG_DELIVERY}}
-    if: false
-    needs: [build]
+    # use if: false to disable job temporarily
+    # if: false
+    needs: [prepare, build]
     # already installed software on macos-latest worker node:
     # https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     # Interesting for this workflow:
     # - homebrew
     # - node
     runs-on: macOS-latest
+    env:
+      MACOS_APP_ZIP: ${{needs.prepare.outputs.macosAppZip}}
+      APP_VERSION: ${{needs.prepare.outputs.appVersion}}
+      BRANCH_OR_TAG_NAME: ${{needs.prepare.outputs.branchOrTagName}}
+
     steps:
       - uses: actions/checkout@v2
 
-      ###--Restore Caches--###
+      ###--Download macOS App Artifact--###
+      - name: Download macOS App Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: '${{ env.DIST_DIR }}'
+
+      ###--Check & Fix Execute Flag of app binary--###
+      - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
+        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
+
+      ###--Restore Node Modules Cache, if available--###
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -129,6 +143,7 @@ jobs:
           restore-keys: |
             master-${{ runner.os }}-${{ env.cache-name }}
 
+      ###--Restore Homebrew Cache, if available--###
       - name: Get Homebrew cache dir
         id: homebrew_cache_dir
         run: echo ::set-output name=path::$(brew --cache)
@@ -149,12 +164,6 @@ jobs:
       - run: brew tap mitchellh/gon
       # These brew packages improve the image generated for the dmg & gon is used in notarization
       - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
-
-      ###--Download macOS App Artifact--###
-      - name: Download macOS App Artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: '${{ env.DIST_DIR }}'
 
       ###--Package & Notarize DMG--###
       # This action needs a github secret called MACOS_DEVELOPER_ID
@@ -185,11 +194,16 @@ jobs:
 
   deploy-dmg:
     name: Deploy Release with DMG
-    needs: [build]
+    needs: [prepare, build]
     # can't use env. in this if statement right now
     # if: startsWith(github.ref, 'refs/tags') && ${{env.DMG_DELIVERY}}
-    if: startsWith(github.ref, 'refs/tags') && false
+    if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
+    env:
+      MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy-dmg job>'
+      APP_VERSION: ${{needs.prepare.outputs.appVersion}}
+      BRANCH_OR_TAG_NAME: ${{needs.prepare.outputs.branchOrTagName}}
+
     steps:
       ### --Download macOS DMG Artifact-- ###
       - name: Download macOS DMG Artifact
@@ -220,16 +234,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object,
+          # which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./${{ env.MACOS_DMG_ARTIFACT_ID }}/${{ env.MACOS_DMG_ARTIFACT_NAME }}
           asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
           asset_content_type: application/octet-stream
 
   deploy-zip:
+    # PROBLEM WITH ZIP DEPLOYMENT: Chrome may think it's malware! :(
     name: Deploy Release with Zip
     # can't use env. in this if statement right now
     # if: startsWith(github.ref, 'refs/tags') && ! ${{env.DMG_DELIVERY}}
-    if: startsWith(github.ref, 'refs/tags')
+    # if: startsWith(github.ref, 'refs/tags')
+    if: false
     # change 'build' in the next statement to 'package' as soon as dmg delivery works
     needs: [prepare, build]
     runs-on: macOS-latest
