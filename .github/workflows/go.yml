@@ -92,8 +92,8 @@ jobs:
       - name: Validate App Signature
         run: ./scripts/04-check-app-signature.sh
 
-      - name: Check & Fix execute permission (Debug only)
-        run: ./scripts/fix-execute-flag.sh ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner
+      - name: Check & Fix execute permission (To be sure file is executable after build)
+        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
 
       ### --Store App Artifact--###
       - name: Store dist folder with macOS App as Github Artifact
@@ -245,8 +245,8 @@ jobs:
         with:
           name: '${{ env.DIST_DIR }}'
 
-      - name: Check & Fix execute permission (only for debugging)
-        run: ./scripts/fix-execute-flag.sh ${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner
+      - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
+        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
 
       - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
       - run: ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
