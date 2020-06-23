@@ -4,10 +4,10 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
     branches:
-      # Note: One commit on master with a tag will trigger the pipeline twice
-      # (although one time in build-only mode and with the tag in deploy mode)
-      - master
+      # Run ci pipeline for all branches except master
+      - ! master
     tags:
+      # runs this pipeline for all new tags for deployment
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
   MACOS_APP_ARTIFACT: 'File Summoner.app'
