@@ -221,7 +221,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
+          release_name: File Summoner ${{ env.APP_VERSION }}
           body: |
             ### Changes
             TODO: Copy from Readme
