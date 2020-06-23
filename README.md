@@ -5,10 +5,27 @@ Simply drag this .app file onto the finder toolbar in edit mode (more detailed d
 
 ## Installation in Finder
 
-1. Go to the [Releases](https://github.com/bjesuiter/macos-file-summoner/releases) section of this github repo
-   and download the 'File.Summoner.app.zip' file from the latest release.
-2. Extract the zip file
-3. Copy the extracted .app file to your macOS 'Programs' folder
+Here is a link to the installation guide video:
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=iY6vKWqmnFg
+" target="_blank"><img src="http://img.youtube.com/vi/iY6vKWqmnFg/0.jpg" 
+alt="Link to a video explaining how to install macOS File Summoner App" width="240" height="180" border="10" /></a>
+
+### Note on Permissions
+
+MacOS MAY ask you for the following permissions:
+
+- Controlling Finder: needed to find the active folder path in the finder window where 'File Summoner' was activated
+- Access to locations on your disk (to create new files)
+
+You need to grant both for the app to work.
+
+### How to install - Text Instructions
+
+1. Download the file 'File.Summoner.x.x.x.dmg' from the latest release of this software at [Github Latest Releases](https://github.com/bjesuiter/macos-file-summoner/releases/latest). The part x.x.x means the version number of the latest release.
+
+2. Open the dmg file
+3. Drag and drop the App to your macOS 'Applications' folder link inside the dmg
 4. Add the app to your finder toolbar
    1. Open a new finder window
    2. Right click on a space section of the finder toolbar and click 'Adjust toolbar'
