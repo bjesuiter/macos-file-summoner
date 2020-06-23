@@ -29,7 +29,7 @@ log 'build go executable...'
 go build -o ${BUILD_DIR}/${EXECUTABLE} .
 
 log 'check, whether new executable has executable flag set & fix it if necessary'
-./scripts/fixexecute-flag.sh "${BUILD_DIR}/${EXECUTABLE}"
+./scripts/fix-execute-flag.sh "${BUILD_DIR}/${EXECUTABLE}"
 
 log 'clean dist folder...'
 rm -rf ${DIST_DIR}
