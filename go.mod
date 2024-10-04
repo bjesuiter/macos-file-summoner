@@ -1,5 +1,5 @@
 module github.com/bjesuiter/macos-file-summoner
 
-go 1.14
+go 1.23
 
-require github.com/andybrewer/mack v0.0.0-20200226161639-15be3d47cc54
+require github.com/andybrewer/mack v0.0.0-20220307193339-22e922cc18af
