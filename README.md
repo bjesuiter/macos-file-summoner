@@ -51,6 +51,11 @@ You need to grant both for the app to work.
 
 # Changelog
 
+## v.1.2.1
+
+- Fixes issue on MacOS Sequoia (15.0) where the App would output garbage text before the filename in the new file dialog.
+  => split filename at "Legacy" to fix garbage output from osa script
+
 ## v1.2.0
 
 - Completely signed and notarized app, which will run without security issues on your mac! \*️
