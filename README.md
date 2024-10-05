@@ -45,13 +45,23 @@ You need to grant both for the app to work.
 - "Icon made by Pixel perfect from www.flaticon.com"
 - Iconset generated with http://www.img2icnsapp.com/
 - DMG created with [create-dmg by Sindre Sorhus](https://www.npmjs.com/package/create-dmg)
-- App and DMG notarizations done with [mitchellh/gon](https://github.com/mitchellh/gon)
+- up to 1.2.0: App and DMG notarizations done with [mitchellh/gon](https://github.com/mitchellh/gon)
+
+## For Devs: Release Process (manual, unnotarized)
+
+1. Update ./mac-app-template/Info.plist with the new version number
+2. Run `./scripts/01-build.sh`
+3. Publish / use the dist "./File Summoner.app" in Finder Toolbar
 
 ---
 
 # Changelog
 
-## v.1.2.1 => TODO: Deploy!
+## v1.2.2
+
+- same as v1.2.1, but with correct version number in Info.plist
+
+## v.1.2.1 => version not changed in Info.plist
 
 - Fixes issue on MacOS Sequoia (15.0) where the App would output garbage text before the filename in the new file dialog.
   => split filename at "Legacy" to fix garbage output from osa script

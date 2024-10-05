@@ -7,7 +7,7 @@
 		<key>CFBundleIconFile</key>
 		<string>icon.icns</string>
 		<key>CFBundleIdentifier</key>
-		<string>de.benjamin-jesuiter.macos-file-summoner</string>
+		<string>dev.bjesuiter.macos-file-summoner</string>
 		<key>CFBundleDisplayName</key>
 		<string>File Summoner</string>
 		<key>NSHighResolutionCapable</key>
@@ -15,7 +15,7 @@
 		<key>LSUIElement</key>
 		<true/>
 		<key>CFBundleShortVersionString</key>
-		<string>1.2.0</string>
+		<string>1.2.2</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 	</dict>
