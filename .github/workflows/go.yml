@@ -1,5 +1,8 @@
 name: Go Build & Release
 
+permissions:
+  actions: 'write'
+
 on:
   # How to configure:
   # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestbranchestags
@@ -59,7 +62,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: xcrun notarytool --version
+      - run: xcrun notarytool
+
+      - name: Early exit
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Install notarization dependencies
       - run: npm install --global json
