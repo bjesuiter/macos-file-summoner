@@ -64,17 +64,8 @@ jobs:
 
       - run: xcrun notarytool
 
-      - name: Early exit
-        run: |
-          gh run cancel ${{ github.run_id }}
-          gh run watch ${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Install notarization dependencies
       - run: npm install --global json
-      - run: brew tap mitchellh/gon
-      - run: brew install mitchellh/gon/gon
 
       - uses: actions/setup-go@v5
         with:
@@ -96,14 +87,25 @@ jobs:
           APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
 
       ### --Notarize Application --##
-      - name: Notarize App with gon-cli
-        run: ./scripts/03-notarize-app.sh
-        env:
-          APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
+      # jb: to re-activate, buy apple dev subscription and switch from gon-cli to apples "notarytool":
+      #   https://developer.apple.com/documentation/technotes/tn3147-migrating-to-the-latest-notarization-tool
+      # - name: Notarize App with apples notarytool
+      #   run: ./scripts/03-notarize-app.sh
+      #   env:
+      #     APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
+      #     APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
 
-      ### --Validate Signature --###
-      - name: Validate App Signature
-        run: ./scripts/04-check-app-signature.sh
+      # FOR DEBUGGING
+      # - name: Early exit
+      #   run: |
+      #     gh run cancel ${{ github.run_id }}
+      #     gh run watch ${{ github.run_id }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ### --Validate Signature: old altool variant, needs update to notarizing tool --###
+      # - name: Validate App Signature
+      #   run: ./scripts/04-check-app-signature.sh
 
       - name: Check & Fix execute permission (To be sure file is executable after build)
         run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
@@ -176,9 +178,8 @@ jobs:
       ###--Install Dependencies--###
       # The json package is used for notarization, create-dmg util is obvious
       - run: npm install --global create-dmg json
-      - run: brew tap mitchellh/gon
       # These brew packages improve the image generated for the dmg & gon is used in notarization
-      - run: brew install graphicsmagick imagemagick mitchellh/gon/gon
+      - run: brew install graphicsmagick imagemagick
 
       ###--Package & Notarize DMG--###
       # This action needs a github secret called MACOS_DEVELOPER_ID

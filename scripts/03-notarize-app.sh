@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-###   Dependencies for this script       
-### - https://github.com/mitchellh/gon (can be installed via homebrew)  
+### Dependencies for this script:
+### - xcrun notarytool (automatically enabled in github actions macOS runners)    
 ### - https://www.npmjs.com/package/json (can be globally installed with npm)  
 ### - ditto - for zippingg folders (already installed in macOS, at least on github runner with 10.15 Catalina)
 ### - xcrun - for stapling the .app folder (already installed in macOS from 10.15 Catalina with XCode)
@@ -25,11 +25,13 @@ log "Zip App for notarization as ./${MACOS_APP_ZIP}"
 ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
 
 # This command needs the npm package json to be installed
-log "Update path in gon-app.json config for notarization to be ${MACOS_APP_ZIP}. (Since folders can't be notarized)" 
-json -I -f scripts/gon-app.json -e "this.notarize[0].path='${MACOS_APP_ZIP}'"
+# log "Update path in gon-app.json config for notarization to be ${MACOS_APP_ZIP}. (Since folders can't be notarized)" 
+# json -I -f scripts/gon-app.json -e "this.notarize[0].path='${MACOS_APP_ZIP}'"
 
 log 'Notarize zipped app...'
-gon ./scripts/gon-app.json   
+# TODO: find TEAM_ID in Apple Account, if needed
+xcrun notarytool … --apple-id "${APPLE_DEVELOPER_ID_NAME}" --team-id TEAM_ID --password "${APPLE_ACCOUNT_APP_PASSWORD}"
+# gon ./scripts/gon-app.json   
 
 log 'Staple original app folder after notarization...'
 xcrun stapler staple "${DIST_DIR}/${MACOS_APP_ARTIFACT}"
