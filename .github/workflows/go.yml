@@ -36,15 +36,15 @@ jobs:
 
       - name: Extract branch name or tag name from GITHUB_REF
         id: setBranchOrTagName
-        run: echo ::set-output name=value::$(echo ${GITHUB_REF} | cut -d / -f 3)
+        run: echo "value=$(echo ${GITHUB_REF} | cut -d / -f 3)" >> $GITHUB_OUTPUT
 
       - name: Extract app version from 'version' file
         id: setAppVersion
-        run: echo ::set-output name=value::$(cat ./version)
+        run: echo "value=$(cat ./version)" >> $GITHUB_OUTPUT
 
       - name: Generate zip name for macos deploy zip
         id: setMacosAppZip
-        run: echo ::set-output name=value::$(echo ${MACOS_APP_ARTIFACT}-${{steps.setAppVersion.outputs.value}}.zip)
+        run: echo "value=$(echo ${MACOS_APP_ARTIFACT}-${{steps.setAppVersion.outputs.value}}.zip)" >> $GITHUB_OUTPUT
 
       - name: Show content of github.ref (for debugging purposes of github ref and defined environment at this point)
         run: echo "github.ref ${{github.ref}}"
@@ -149,7 +149,7 @@ jobs:
       ###--Restore Homebrew Cache, if available--###
       - name: Get Homebrew cache dir
         id: homebrew_cache_dir
-        run: echo ::set-output name=path::$(brew --cache)
+        run: echo "path=$(brew --cache)" >> $GITHUB_OUTPUT
 
       - name: Cache homebrew modules
         uses: actions/cache@v2
