@@ -203,7 +203,7 @@ jobs:
           APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
 
       - name: Store macOS DMG as Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
           path: '*.dmg'
