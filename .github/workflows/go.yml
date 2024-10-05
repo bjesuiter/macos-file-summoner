@@ -98,7 +98,7 @@ jobs:
 
       ### --Store App Artifact--###
       - name: Store dist folder with macOS App as Github Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: '${{ env.DIST_DIR}}'
           path: '${{ env.DIST_DIR }}'
@@ -122,11 +122,11 @@ jobs:
       BRANCH_OR_TAG_NAME: ${{needs.prepare.outputs.branchOrTagName}}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       ###--Download macOS App Artifact--###
       - name: Download macOS App Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: '${{ env.DIST_DIR }}'
 
