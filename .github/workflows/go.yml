@@ -120,7 +120,7 @@ jobs:
   package:
     name: Create DMG
     # Using this env var fails for syntactical reasons of github actions
-    # if: ${{env.DMG_DELIVERY}}
+    if: ${{env.DMG_DELIVERY}}
     # use if: false to disable job temporarily
     # if: false
     needs: [prepare, build]
@@ -187,7 +187,7 @@ jobs:
       # like 'Developer ID Application: Benjamin Jesuiter (BB38WRH6VJ)'
 
       # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
-      - uses: apple-actions/import-codesign-certs@v1
+      - uses: apple-actions/import-codesign-certs@v3
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
@@ -197,10 +197,10 @@ jobs:
         env:
           APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
 
-      - name: Notarize DMG with gon-cli
-        run: ./scripts/notarize-dmg.sh
-        env:
-          APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
+      # - name: Notarize DMG with gon-cli
+      #   run: ./scripts/notarize-dmg.sh
+      #   env:
+      #     APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
 
       - name: Store macOS DMG as Artifact
         uses: actions/upload-artifact@v4
@@ -212,8 +212,8 @@ jobs:
     name: Deploy Release with DMG
     needs: [prepare, package]
     # can't use env. in this if statement right now
-    # if: startsWith(github.ref, 'refs/tags') && ${{env.DMG_DELIVERY}}
-    if: startsWith(github.ref, 'refs/tags')
+    if: startsWith(github.ref, 'refs/tags') && ${{env.DMG_DELIVERY}}
+    # if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     env:
       MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy-dmg job>'
@@ -223,7 +223,7 @@ jobs:
     steps:
       ### --Download macOS DMG Artifact-- ###
       - name: Download macOS DMG Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
 
@@ -232,7 +232,7 @@ jobs:
 
       - name: Create Release
         id: create-release
-        uses: actions/create-release@v1.1.0
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
