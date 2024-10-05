@@ -59,6 +59,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: xcrun notarytool --version
+
       # Install notarization dependencies
       - run: npm install --global json
       - run: brew tap mitchellh/gon
