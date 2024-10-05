@@ -76,7 +76,7 @@ jobs:
 
       ### --Sign Application-- ###
       # import apple code signing certificate - encode with 'base64 -i <in-file>' - prints base64 of file into command line
-      - uses: apple-actions/import-codesign-certs@v1
+      - uses: apple-actions/import-codesign-certs@v3
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
