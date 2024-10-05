@@ -120,7 +120,7 @@ jobs:
   package:
     name: Create DMG
     # Using this env var fails for syntactical reasons of github actions
-    if: ${{vars.DMG_DELIVERY}}
+    if: ${{vars.DMG_DELIVERY == true}}
     # use if: false to disable job temporarily
     # if: false
     needs: [prepare, build]
