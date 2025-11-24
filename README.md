@@ -3,6 +3,8 @@
 The macOS File Summoner is a little tool which is able to create new files directly from finder.
 Simply drag this .app file onto the finder toolbar in edit mode (more detailed description later) and click the icon! :)
 
+TODO: Update -github actions workflow to use the scripts for building, notarizing etc!
+
 ## Installation in Finder
 
 Here is a link to the installation guide video:
