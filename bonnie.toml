@@ -1,8 +1,17 @@
-version = "0.3.2"
+version   = "0.3.2"
+env_files = [".env"]
 
 [scripts]
     build        = "./scripts/01-build.sh"
-    sign-app     = "./scripts/02-sign-app.sh"
+    sign         = "./scripts/02-sign.sh"
     notarize-app = "./scripts/03-notarize-app.sh"
     package-dmg  = "./scripts/package-dmg.sh"
     notarize-dmg = "./scripts/notarize-dmg.sh"
+
+    # Helper commands
+    list-dev-ids.cmd         = "security find-identity -v -p codesigning"
+    list-dev-ids.description = "List all Developer ID certs"
+
+    # Dummy Commands 
+    echo.cmd         = "echo ${APPLE_DEVELOPER_ID_CODE}"
+    echo.description = "Echo the APPLE_DEVELOPER_ID_CODE environment variable"
