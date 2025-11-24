@@ -6,8 +6,8 @@ env_files = [".env"]
     sign            = "./scripts/02-sign.sh"
     notarize        = "./scripts/03-notarize.sh"
     check-signature = "./scripts/04-check-app-signature.sh"
-    package-dmg     = "./scripts/package-dmg.sh"
-    notarize-dmg    = "./scripts/notarize-dmg.sh"
+    package-dmg     = "./scripts/05-package-dmg.sh"
+    notarize-dmg    = "./scripts/06-notarize-dmg.sh"
 
     # Helper commands
     list-dev-ids.cmd                     = "security find-identity -v -p codesigning"
