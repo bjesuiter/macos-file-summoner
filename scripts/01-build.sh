@@ -20,7 +20,7 @@ log 'build go executable...'
 GOOS=darwin GOARCH=arm64 go build -o ${BUILD_DIR}/${EXECUTABLE} .
 
 log 'check, whether new executable has executable flag set & fix it if necessary'
-./scripts/fix-execute-flag.sh "${BUILD_DIR}/${EXECUTABLE}"
+./scripts/helpers/fix-execute-flag.sh "${BUILD_DIR}/${EXECUTABLE}"
 
 log 'clean dist folder...'
 rm -rf "${DIST_DIR}"    
