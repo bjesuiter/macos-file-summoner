@@ -2,15 +2,18 @@ version   = "0.3.2"
 env_files = [".env"]
 
 [scripts]
-    build        = "./scripts/01-build.sh"
-    sign         = "./scripts/02-sign.sh"
-    notarize     = "./scripts/03-notarize.sh"
-    package-dmg  = "./scripts/package-dmg.sh"
-    notarize-dmg = "./scripts/notarize-dmg.sh"
+    build           = "./scripts/01-build.sh"
+    sign            = "./scripts/02-sign.sh"
+    notarize        = "./scripts/03-notarize.sh"
+    check-signature = "./scripts/04-check-app-signature.sh"
+    package-dmg     = "./scripts/package-dmg.sh"
+    notarize-dmg    = "./scripts/notarize-dmg.sh"
 
     # Helper commands
-    list-dev-ids.cmd         = "security find-identity -v -p codesigning"
-    list-dev-ids.description = "List all Developer ID certs"
+    list-dev-ids.cmd                     = "security find-identity -v -p codesigning"
+    list-dev-ids.description             = "List all Developer ID certs"
+    check-signature-manually.cmd         = "codesign -dv --verbose=4 \"dist/File Summoner.app\""
+    check-signature-manually.description = "Useful command for checking code signature in verbosity level 4 manually"
 
     # Dummy Commands 
     echo.cmd         = "echo ${APPLE_DEVELOPER_ID_CODE}"
