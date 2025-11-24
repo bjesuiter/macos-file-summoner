@@ -14,9 +14,13 @@
 		<true/>
 		<key>LSUIElement</key>
 		<true/>
+		<key>CFBundleVersion</key>
+		<string>1.2.2</string>
 		<key>CFBundleShortVersionString</key>
 		<string>1.2.2</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
+		<key>NSHumanReadableCopyright</key>
+		<string>Copyright © 2025 Benjamin Jesuiter. All rights reserved.</string>
 	</dict>
 </plist>
