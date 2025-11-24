@@ -4,7 +4,7 @@ env_files = [".env"]
 [scripts]
     build        = "./scripts/01-build.sh"
     sign         = "./scripts/02-sign.sh"
-    notarize-app = "./scripts/03-notarize-app.sh"
+    notarize     = "./scripts/03-notarize.sh"
     package-dmg  = "./scripts/package-dmg.sh"
     notarize-dmg = "./scripts/notarize-dmg.sh"
 
