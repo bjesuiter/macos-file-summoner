@@ -83,6 +83,11 @@ You need to grant both for the app to work.
 
 # Readme for Developers
 
+## Repo Setup
+
+- Script runner: bx: https://crates.io/crates/bx
+  Install via: `cargo install --locked bx`
+
 ## New Version release
 
 1. increase version in Info.plist & ./version file

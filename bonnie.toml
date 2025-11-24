@@ -1,0 +1,8 @@
+version = "0.3.2"
+
+[scripts]
+    build        = "./scripts/01-build.sh"
+    sign-app     = "./scripts/02-sign-app.sh"
+    notarize-app = "./scripts/03-notarize-app.sh"
+    package-dmg  = "./scripts/package-dmg.sh"
+    notarize-dmg = "./scripts/notarize-dmg.sh"
