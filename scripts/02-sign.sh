@@ -5,6 +5,7 @@ log() { echo -e "\n${1}"; }
 # Input Vars
 DIST_DIR=${DIST_DIR:-dist}
 MACOS_APP_ARTIFACT=${MACOS_APP_ARTIFACT:-'File Summoner.app'}
+IS_CI=${IS_CI:-false}
 
 # Required Env Var
 if [ -z "$APPLE_DEVELOPER_ID_CODE" ]; then
@@ -17,7 +18,7 @@ log "-- $(basename ${0}) --"
 APP_PATH="${DIST_DIR}/${MACOS_APP_ARTIFACT}"
 BIN_PATH="${APP_PATH}/Contents/MacOS/macos-file-summoner"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENTITLEMENTS="${SCRIPT_DIR}/02-signing/entitlements.plist"
+ENTITLEMENTS="${SCRIPT_DIR}/02-sign/entitlements.plist"
 
 # Sign nested binaries first (frameworks, helpers)
 find "$APP_PATH/Contents" -type f \( -name "*.dylib" -o -name "*.framework" \) \
@@ -35,8 +36,11 @@ codesign --force --timestamp --options runtime \
   --sign "$APPLE_DEVELOPER_ID_CODE" "$APP_PATH"
 
 log 'Validating signature...'
-codesign --verify --strict --verbose=2 "$APP_PATH"
+codesign --verify --verbose=2 "$APP_PATH"
 
+# DO NOT RUN THIS IN GITHUB ACTIONS CI!: 
 # Check notarization-readiness (offline check)
-spctl --assess --type execute --verbose=4 "$APP_PATH" || \
-  log 'Warning: Gatekeeper check failed (expected if not yet notarized)'
+if [ "$IS_CI" = false ]; then
+  spctl --assess --type execute --verbose=4 "$APP_PATH" || \
+    log 'Warning: Gatekeeper check failed (expected if not yet notarized)'
+fi

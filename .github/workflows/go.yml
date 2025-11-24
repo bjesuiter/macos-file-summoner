@@ -1,7 +1,7 @@
 name: Go Build & Release
 
 permissions:
-  actions: 'write'
+  actions: "write"
 
 on:
   # How to configure:
@@ -10,15 +10,16 @@ on:
     # Sequence of patterns matched against refs/branches
     # Run ci pipeline for all branches except master
     branches:
-      - '*'
-      - '!master'
+      - "*"
+      - "!master"
     tags:
       # runs this pipeline for all new tags for deployment
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 env:
-  MACOS_APP_ARTIFACT: 'File Summoner.app'
-  DIST_DIR: 'dist'
-  MACOS_DMG_ARTIFACT_ID: 'file-summoner-dmg-artifact'
+  MACOS_APP_ARTIFACT: "File Summoner.app"
+  DIST_DIR: "dist"
+  MACOS_DMG_ARTIFACT_ID: "file-summoner-dmg-artifact"
+  IS_CI: "true"
 
 jobs:
   prepare:
@@ -69,7 +70,7 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: "1.23"
 
       - name: Build Binary & macOS App
         run: ./scripts/01-build.sh
@@ -114,8 +115,8 @@ jobs:
       - name: Store dist folder with macOS App as Github Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: '${{ env.DIST_DIR}}'
-          path: '${{ env.DIST_DIR }}'
+          name: "${{ env.DIST_DIR}}"
+          path: "${{ env.DIST_DIR }}"
 
   package:
     name: Create DMG
@@ -142,7 +143,7 @@ jobs:
       - name: Download macOS App Artifact
         uses: actions/download-artifact@v4
         with:
-          name: '${{ env.DIST_DIR }}'
+          name: "${{ env.DIST_DIR }}"
 
       ###--Check & Fix Execute Flag of app binary--###
       - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
@@ -205,8 +206,8 @@ jobs:
       - name: Store macOS DMG as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
-          path: '*.dmg'
+          name: "${{ env.MACOS_DMG_ARTIFACT_ID }}"
+          path: "*.dmg"
 
   deploy-dmg:
     name: Deploy Release with DMG
@@ -216,7 +217,7 @@ jobs:
     # if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     env:
-      MACOS_DMG_ARTIFACT_NAME: '<will be set in deploy-dmg job>'
+      MACOS_DMG_ARTIFACT_NAME: "<will be set in deploy-dmg job>"
       APP_VERSION: ${{needs.prepare.outputs.appVersion}}
       BRANCH_OR_TAG_NAME: ${{needs.prepare.outputs.branchOrTagName}}
 
@@ -225,7 +226,7 @@ jobs:
       - name: Download macOS DMG Artifact
         uses: actions/download-artifact@v4
         with:
-          name: '${{ env.MACOS_DMG_ARTIFACT_ID }}'
+          name: "${{ env.MACOS_DMG_ARTIFACT_ID }}"
 
       - name: Extract DMG Release Asset Name
         run: cd ${{ env.MACOS_DMG_ARTIFACT_ID }} && echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
@@ -274,7 +275,7 @@ jobs:
       - name: Download macOS App Artifact
         uses: actions/download-artifact@v4
         with:
-          name: '${{ env.DIST_DIR }}'
+          name: "${{ env.DIST_DIR }}"
 
       - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
         run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
