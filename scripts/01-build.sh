@@ -16,24 +16,15 @@ BUILD_DIR=build
 # logs the script name
 log "-- $(basename ${0}) --"
 
-log 'Check GOOS and GOARCH before setting the variables...'
-go env GOOS GOARCH
-
-export GOOS=darwin
-export GOARCH=amd64
-
-log 'Check GOOS and GOARCH after setting the variables...'
-go env GOOS GOARCH
-
 log 'build go executable...'
-go build -o ${BUILD_DIR}/${EXECUTABLE} .
+GOOS=darwin GOARCH=arm64 go build -o ${BUILD_DIR}/${EXECUTABLE} .
 
 log 'check, whether new executable has executable flag set & fix it if necessary'
 ./scripts/fix-execute-flag.sh "${BUILD_DIR}/${EXECUTABLE}"
 
 log 'clean dist folder...'
-rm -rf ${DIST_DIR}
-mkdir ${DIST_DIR}
+rm -rf "${DIST_DIR}"    
+mkdir "${DIST_DIR}"
 
 log "create target folder: ${DIST_DIR}/${MACOS_APP_ARTIFACT}/"
 mkdir -p "${DIST_DIR}/${MACOS_APP_ARTIFACT}/"
