@@ -138,11 +138,33 @@ go mod tidy
 
 ## Environment Variables
 
-See `.env.example`:
+See `.env.example` for detailed instructions on obtaining each credential.
+
+### Local Development (`.env` file)
 - `APPLE_DEVELOPER_ID_CODE` - Code signing identity
 - `APPLE_DEVELOPER_ID_NAME` - Apple ID email
 - `APPLE_ACCOUNT_APP_PASSWORD` - App-specific password
 - `APPLE_TEAM_ID` - Developer Team ID
+- `APPLE_DEVELOPER_ID_LABEL` - Same as APPLE_DEVELOPER_ID_CODE (for create-dmg)
+
+### GitHub Actions Secrets (required for CI/CD releases)
+
+All secrets must be configured in: Repository Settings → Secrets and variables → Actions
+
+| Secret | Description |
+|--------|-------------|
+| `APPLE_DEVELOPER_ID_CERT_P12` | Base64-encoded .p12 certificate (`base64 -i cert.p12`) |
+| `APPLE_DEVELOPER_ID_CERT_PASSWD` | Password for the .p12 certificate |
+| `APPLE_DEVELOPER_ID_CODE` | Signing identity (e.g., `Developer ID Application: Name (TEAMID)`) |
+| `APPLE_DEVELOPER_ID_NAME` | Apple ID email for notarization |
+| `APPLE_ACCOUNT_APP_PASSWORD` | App-specific password for notarization |
+| `APPLE_TEAM_ID` | 10-character Team ID |
+| `APPLE_DEVELOPER_ID_LABEL` | Same as `APPLE_DEVELOPER_ID_CODE` |
+
+**Find your signing identity and Team ID:**
+```bash
+security find-identity -v -p codesigning
+```
 
 ## Common Tasks
 
