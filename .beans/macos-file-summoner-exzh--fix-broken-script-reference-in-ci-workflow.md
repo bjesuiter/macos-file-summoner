@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-exzh
 title: Fix broken script reference in CI workflow
-status: todo
+status: in-progress
 type: bug
 priority: critical
 created_at: 2026-01-21T12:17:15Z
-updated_at: 2026-01-21T12:17:15Z
+updated_at: 2026-01-21T20:16:39Z
 ---
 
 GitHub Actions workflow references non-existent script, causing CI failures.

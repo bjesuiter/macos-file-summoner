@@ -83,7 +83,7 @@ jobs:
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
 
       - name: Sign macOS app with codesign tool
-        run: ./scripts/02-sign-app.sh
+        run: ./scripts/02-sign.sh
         env:
           APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
 
@@ -109,7 +109,7 @@ jobs:
       #   run: ./scripts/04-check-app-signature.sh
 
       - name: Check & Fix execute permission (To be sure file is executable after build)
-        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
+        run: ./scripts/helpers/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
 
       ### --Store App Artifact--###
       - name: Store dist folder with macOS App as Github Artifact
@@ -147,7 +147,7 @@ jobs:
 
       ###--Check & Fix Execute Flag of app binary--###
       - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
-        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
+        run: ./scripts/helpers/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
 
       ###--Restore Node Modules Cache, if available--###
       - name: Cache node modules
@@ -278,7 +278,7 @@ jobs:
           name: "${{ env.DIST_DIR }}"
 
       - name: Check & Fix execute permission (to be sure that the app is executable after storing in github artifacts)
-        run: ./scripts/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
+        run: ./scripts/helpers/fix-execute-flag.sh "${DIST_DIR}/${MACOS_APP_ARTIFACT}/Contents/MacOS/macos-file-summoner"
 
       - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
       - run: ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
