@@ -88,7 +88,7 @@ You need to grant both for the app to work.
 ## Repo Setup
 
 - Script runner: bx: https://crates.io/crates/bx
-  Install via: `cargo install --locked bx`
+  Install via: `cargo install --locked codemonument_bx`
 
 ## New Version release
 
