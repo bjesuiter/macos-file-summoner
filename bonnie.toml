@@ -3,6 +3,7 @@ env_files = [".env"]
 
 [scripts]
     build           = "./scripts/01-build.sh"
+    lint            = "golangci-lint run"
     sign            = "./scripts/02-sign.sh"
     notarize        = "./scripts/03-notarize.sh"
     check-signature = "./scripts/04-check-app-signature.sh"
