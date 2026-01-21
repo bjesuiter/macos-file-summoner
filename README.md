@@ -59,6 +59,13 @@ You need to grant both for the app to work.
 
 # Changelog
 
+## v1.2.6
+
+- Migrated release pipeline to **GoReleaser**
+- Universal binary support (arm64 + amd64) - works on all Macs
+- Automated signing, notarization, and DMG creation
+- Stable CI/CD pipeline (tested locally on M3 MBP and GitHub Actions)
+
 ## v1.2.2
 
 - same as v1.2.1, but with correct version number in Info.plist
@@ -92,23 +99,22 @@ You need to grant both for the app to work.
 
 ## New Version release
 
-1. increase version in Info.plist & ./version file
-2. Update changelog in Readme.md
-3. Commit this changes as 'Release vx.x.x'
-4. Tag this release with 'vx.x.x'
-5. Upload this tag to github with 'git push --tags'
-6. Adjust Release Publish on Github
-   - generate another random Emoji to mark the release (for better readability)  
-     https://perchance.org/emoji
-   - Add Changes in this release
+Uses **GoReleaser** for automated builds, signing, notarization, and DMG creation.
+
+1. Update version in `./version` AND `mac-app-template/Contents/Info.plist`
+2. Update changelog in README.md
+3. Commit: `git commit -am "Release vX.X.X"`
+4. Tag: `git tag vX.X.X`
+5. Push: `git push && git push origin vX.X.X`
+6. GoReleaser automatically builds, signs, notarizes, and creates GitHub release
+
+**Local testing:** `bx release-snapshot` (builds without publishing)
 
 ## Todos
 
 - improve icon to better fit macOS Finder style
 - Add i18n to the app based on the language of the host macos
 - copy the string in ./version' into the 'Info.plist' file for the app to avoid manual version updating in Info.plist
-- github actions build does not work when downloaded from github (no .app, no .dmg)
-  - TODO: make zip of .app and notarize this => Test again
 - Publish App in Mac App Store (https://developer.apple.com/macos/submit/)
 
 ## Ideas
