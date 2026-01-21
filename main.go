@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/andybrewer/mack"
@@ -61,6 +62,18 @@ func main() {
 			log.Printf("Unknown count for dialog result")
 			os.Exit(2)
 		}
+
+		if newFilename == "" {
+			mack.Alert("Error", "Filename cannot be empty")
+			os.Exit(1)
+		}
+
+		if strings.Contains(newFilename, "/") || strings.Contains(newFilename, "..") || strings.Contains(newFilename, "\x00") {
+			mack.Alert("Error", "Filename cannot contain path separators or special characters")
+			os.Exit(1)
+		}
+
+		newFilename = filepath.Base(newFilename)
 
 		err := touchFile(path, newFilename)
 		if err != nil {

@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-gpf2
 title: Add filename input validation and sanitization
-status: todo
+status: in-progress
 type: bug
 priority: high
 created_at: 2026-01-21T12:17:03Z
-updated_at: 2026-01-21T12:17:03Z
+updated_at: 2026-01-21T20:20:01Z
 ---
 
 SECURITY: User input is passed directly to exec.Command() without validation. Could allow path traversal or command injection.
