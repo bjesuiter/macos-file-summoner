@@ -42,8 +42,16 @@ else
     log "Step 2: Signing .app bundle"
     log "Using identity: ${APPLE_DEVELOPER_ID_CODE}"
     
-    log "Available signing identities:"
+    log "Current keychain search list:"
+    security list-keychains -d user || true
+    
+    log "Available signing identities (all keychains):"
     security find-identity -v -p codesigning || true
+    
+    log "Checking signing_temp keychain specifically:"
+    security find-identity -v -p codesigning ~/Library/Keychains/signing_temp.keychain-db 2>/dev/null || \
+    security find-identity -v -p codesigning ~/Library/Keychains/signing_temp.keychain 2>/dev/null || \
+    log "signing_temp keychain not found"
     
     find "$APP_PATH/Contents" -type f \( -name "*.dylib" -o -name "*.framework" \) \
         -exec codesign --force --timestamp --options runtime \
