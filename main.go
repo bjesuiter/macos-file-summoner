@@ -26,14 +26,16 @@ func main() {
 		"end if",
 		"return POSIX path of dir")
 	if err != nil {
-		panic(err)
+		mack.Alert("Error", "Failed to get Finder path: "+err.Error())
+		os.Exit(1)
 	}
 
 	log.Printf("Topmost finder path:  %s\n", path)
 
 	response, err := mack.Dialog("New Filename", "Insert Filename", "newFile.txt")
 	if err != nil {
-		panic(err)
+		mack.Alert("Error", "Failed to show filename dialog: "+err.Error())
+		os.Exit(1)
 	}
 
 	if response.Clicked == "Cancel" {
@@ -77,7 +79,8 @@ func main() {
 
 		err := touchFile(path, newFilename)
 		if err != nil {
-			panic(err)
+			mack.Alert("Error", "Failed to create file: "+err.Error())
+			os.Exit(1)
 		}
 		log.Printf("File Created: %s", newFilename)
 	}
