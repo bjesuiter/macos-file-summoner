@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-a3ng
 title: Replace panic() calls with graceful error handling
-status: in-progress
+status: completed
 type: bug
 priority: high
 created_at: 2026-01-21T12:16:59Z
-updated_at: 2026-01-21T20:20:41Z
+updated_at: 2026-01-21T20:21:03Z
 ---
 
 main.go uses panic() for recoverable errors at lines 28, 35, 67. This crashes the app with a stack trace instead of showing user-friendly error dialogs.
