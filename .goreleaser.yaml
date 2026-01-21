@@ -1,0 +1,100 @@
+# GoReleaser configuration for macOS File Summoner
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+project_name: macos-file-summoner
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: macos-file-summoner
+    binary: macos-file-summoner
+    main: .
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+# Create Universal Binary (fat binary) for macOS
+# Combines arm64 and amd64 into a single binary that runs on all Macs
+universal_binaries:
+  - id: macos-file-summoner-universal
+    ids:
+      - macos-file-summoner
+    replace: true
+    name_template: "macos-file-summoner"
+    hooks:
+      # After universal binary is created, assemble .app bundle, sign, notarize, create DMG
+      post: ./scripts/goreleaser-post-build.sh "{{ .Path }}"
+
+# Disable default archives - we create a custom .app bundle via hooks
+archives:
+  - id: skip
+    formats: [binary]
+    files:
+      - none*
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+  groups:
+    - title: Features
+      regexp: "^.*feat.*$"
+      order: 0
+    - title: Bug Fixes
+      regexp: "^.*fix.*$"
+      order: 1
+    - title: Others
+      order: 999
+
+release:
+  github:
+    owner: bjesuiter
+    name: macos-file-summoner
+
+  # Include the DMG and zipped .app in the release
+  extra_files:
+    - glob: "./dist/*.dmg"
+    - glob: "./dist/*.app.zip"
+
+  # Clean up release notes
+  header: |
+    ## macOS File Summoner {{ .Tag }}
+
+    Create new files directly from Finder toolbar!
+
+  footer: |
+    ---
+
+    ### Installation
+
+    1. Download `File.Summoner.{{ .Version }}.dmg`
+    2. Open the DMG and drag "File Summoner.app" to your Applications folder
+    3. Add to Finder toolbar: Right-click toolbar → Customize → Drag app icon
+
+    **Note**: This app is signed and notarized by Apple for your security.
+
+    ---
+    Released with [GoReleaser](https://github.com/goreleaser/goreleaser).
+
+  # Don't auto-generate release notes (we use changelog)
+  disable: false
+  draft: false
+  prerelease: auto
+  mode: replace
+  skip_upload: false

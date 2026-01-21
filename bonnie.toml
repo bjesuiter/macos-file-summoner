@@ -2,6 +2,17 @@ version   = "0.3.2"
 env_files = [".env"]
 
 [scripts]
+    # GoReleaser commands (recommended)
+    release.cmd         = "goreleaser release --clean"
+    release.description = "Full release with goreleaser (builds, signs, notarizes, creates DMG, publishes)"
+    
+    release-snapshot.cmd         = "goreleaser release --snapshot --clean"
+    release-snapshot.description = "Test release locally without publishing"
+    
+    release-check.cmd         = "goreleaser check"
+    release-check.description = "Validate .goreleaser.yaml configuration"
+
+    # Legacy scripts (kept for reference/debugging)
     build           = "./scripts/01-build.sh"
     lint            = "golangci-lint run"
     sign            = "./scripts/02-sign.sh"

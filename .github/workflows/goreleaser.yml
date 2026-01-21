@@ -1,0 +1,82 @@
+name: GoReleaser Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run without publishing (snapshot mode)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Import Code Signing Certificate
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+          p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+
+      - name: Install create-dmg
+        run: npm install -g create-dmg
+
+      - name: Install graphicsmagick and imagemagick (for DMG styling)
+        run: brew install graphicsmagick imagemagick
+
+      - name: Run GoReleaser (Snapshot)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true'
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: release --snapshot --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_DEVELOPER_ID_CODE: ${{ secrets.APPLE_DEVELOPER_ID_CODE }}
+          APPLE_DEVELOPER_ID_NAME: ${{ secrets.APPLE_DEVELOPER_ID_NAME }}
+          APPLE_ACCOUNT_APP_PASSWORD: ${{ secrets.APPLE_ACCOUNT_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_DEVELOPER_ID_LABEL: ${{ secrets.APPLE_DEVELOPER_ID_LABEL }}
+
+      - name: Run GoReleaser (Release)
+        if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'false')
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_DEVELOPER_ID_CODE: ${{ secrets.APPLE_DEVELOPER_ID_CODE }}
+          APPLE_DEVELOPER_ID_NAME: ${{ secrets.APPLE_DEVELOPER_ID_NAME }}
+          APPLE_ACCOUNT_APP_PASSWORD: ${{ secrets.APPLE_ACCOUNT_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_DEVELOPER_ID_LABEL: ${{ secrets.APPLE_DEVELOPER_ID_LABEL }}
+
+      - name: Upload artifacts (Snapshot)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            dist/*.app
+            dist/*.app.zip
+            dist/*.dmg
+            dist/checksums.txt
