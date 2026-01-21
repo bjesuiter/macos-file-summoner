@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-wgb6
 title: 'Analysis: Re-enable notarization in CI workflow'
-status: todo
+status: in-progress
 type: task
 priority: normal
 created_at: 2026-01-21T12:18:23Z
-updated_at: 2026-01-21T12:18:23Z
+updated_at: 2026-01-21T20:23:44Z
 ---
 
 ANALYSIS NEEDED: Notarization is commented out in CI workflow. App may not work for all users.

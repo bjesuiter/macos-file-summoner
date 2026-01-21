@@ -88,13 +88,14 @@ jobs:
           APPLE_DEVELOPER_ID_CODE: ${{secrets.APPLE_DEVELOPER_ID_CODE}}
 
       ### --Notarize Application --##
-      # jb: to re-activate, buy apple dev subscription and switch from gon-cli to apples "notarytool":
-      #   https://developer.apple.com/documentation/technotes/tn3147-migrating-to-the-latest-notarization-tool
+      # To re-enable: Requires active Apple Developer subscription and configured secrets
+      # See: https://developer.apple.com/documentation/technotes/tn3147-migrating-to-the-latest-notarization-tool
       # - name: Notarize App with apples notarytool
-      #   run: ./scripts/03-notarize-app.sh
+      #   run: ./scripts/03-notarize.sh
       #   env:
       #     APPLE_DEVELOPER_ID_NAME: ${{secrets.APPLE_DEVELOPER_ID_NAME}}
       #     APPLE_ACCOUNT_APP_PASSWORD: ${{secrets.APPLE_ACCOUNT_APP_PASSWORD}}
+      #     APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
 
       # FOR DEBUGGING
       # - name: Early exit
