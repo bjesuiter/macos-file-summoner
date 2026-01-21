@@ -73,7 +73,7 @@ FileSummoner/
 **Xcode Settings**:
 - **Template**: macOS → App → SwiftUI
 - **Language**: Swift
-- **Deployment Target**: macOS 13.0 (Ventura) minimum
+- **Deployment Target**: macOS 11.0 (Big Sur) minimum
 - **Signing**: Developer ID Application (for notarization)
 
 #### 1.2 Configure Info.plist
@@ -1254,7 +1254,7 @@ Create an Automator action/Quick Action for right-click menu integration.
 | TBD | Use NSAppleScript over ScriptingBridge | Simpler, recommended by Apple |
 | TBD | Use NSAlert for MVP, SwiftUI optional | Faster implementation, native feel |
 | TBD | Keep LSUIElement design | Maintains toolbar app behavior |
-| TBD | macOS 13+ minimum | SwiftUI maturity, market share |
+| TBD | macOS 11+ minimum | Broad compatibility while retaining SwiftUI App lifecycle |
 
 ---
 
