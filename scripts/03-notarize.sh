@@ -37,16 +37,18 @@ log "Zip App for notarization as ./${MACOS_APP_ZIP}"
 ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
 
 log 'Submitting app for notarization...'
-# Build the notarytool submit command
-NOTARY_CMD="xcrun notarytool submit \"${MACOS_APP_ZIP}\" --apple-id \"${APPLE_DEVELOPER_ID_NAME}\" --password \"${APPLE_ACCOUNT_APP_PASSWORD}\" --wait"
+# Build the notarytool submit command as array (avoids eval security vulnerability)
+NOTARY_CMD=(xcrun notarytool submit "${MACOS_APP_ZIP}" \
+    --apple-id "${APPLE_DEVELOPER_ID_NAME}" \
+    --password "${APPLE_ACCOUNT_APP_PASSWORD}" \
+    --wait)
 
 # Add team-id if provided (recommended for accounts with multiple teams)
 if [ -n "$APPLE_TEAM_ID" ]; then
-    NOTARY_CMD="${NOTARY_CMD} --team-id \"${APPLE_TEAM_ID}\""
+    NOTARY_CMD+=(--team-id "${APPLE_TEAM_ID}")
 fi
 
-# Execute notarization
-eval $NOTARY_CMD
+"${NOTARY_CMD[@]}"
 
 # Check if notarization was successful
 if [ $? -ne 0 ]; then

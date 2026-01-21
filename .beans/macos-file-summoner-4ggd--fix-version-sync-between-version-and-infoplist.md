@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-4ggd
 title: Fix version sync between ./version and Info.plist
-status: in-progress
+status: completed
 type: bug
 priority: critical
 created_at: 2026-01-21T12:16:56Z
-updated_at: 2026-01-21T20:17:25Z
+updated_at: 2026-01-21T20:17:49Z
 ---
 
 CRITICAL: ./version file contains 1.2.0 but Info.plist contains 1.2.2. These MUST stay in sync per AGENTS.md guidelines.
