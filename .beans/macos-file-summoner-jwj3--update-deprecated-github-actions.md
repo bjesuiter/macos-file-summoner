@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-jwj3
 title: Update deprecated GitHub Actions
-status: in-progress
+status: completed
 type: task
 priority: normal
 created_at: 2026-01-21T12:17:48Z
-updated_at: 2026-01-21T20:22:13Z
+updated_at: 2026-01-21T20:22:48Z
 ---
 
 GitHub Actions workflow uses deprecated actions that will eventually break.

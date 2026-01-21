@@ -39,9 +39,13 @@ func main() {
 	}
 
 	if response.Clicked == "Cancel" {
-		// handle the Cancel event
 		os.Exit(2)
 	} else {
+		// WORKAROUND: macOS Sequoia (15.0+) returns garbage text before the actual filename
+		// in AppleScript dialog responses. The garbage text typically ends with "Legacy".
+		// This split extracts the actual filename from the response.
+		// Known limitation: filenames containing "Legacy" will be incorrectly split.
+		// TODO: Check if newer mack library versions fix this upstream.
 		dialogResult := strings.Split(response.Text, "Legacy")
 		log.Printf("Dialog Result: %s", dialogResult)
 		log.Printf("Dialog Result Length: %d", len(dialogResult))

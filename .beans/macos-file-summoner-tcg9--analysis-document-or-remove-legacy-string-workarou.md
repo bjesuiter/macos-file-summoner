@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-tcg9
 title: 'Analysis: Document or remove Legacy string workaround'
-status: todo
+status: in-progress
 type: task
 priority: normal
 created_at: 2026-01-21T12:18:13Z
-updated_at: 2026-01-21T12:18:13Z
+updated_at: 2026-01-21T20:23:01Z
 ---
 
 ANALYSIS NEEDED: The 'Legacy' string split workaround for macOS Sequoia is fragile.
