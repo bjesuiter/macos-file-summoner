@@ -231,32 +231,17 @@ jobs:
       - name: Extract DMG Release Asset Name
         run: cd ${{ env.MACOS_DMG_ARTIFACT_ID }} && echo ::set-env name=MACOS_DMG_ARTIFACT_NAME::$(ls | grep *.dmg)
 
-      - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Create Release and Upload DMG
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: File Summoner ${{ env.APP_VERSION }}
+          files: ./${{ env.MACOS_DMG_ARTIFACT_ID }}/${{ env.MACOS_DMG_ARTIFACT_NAME }}
+          name: File Summoner ${{ env.APP_VERSION }}
+          draft: true
           body: |
             ### Changes
             TODO: Copy from Readme
-          draft: true
-          prerelease: false
-
-      - name: Upload Release DMG
-        id: upload-release-dmg
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object,
-          # which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./${{ env.MACOS_DMG_ARTIFACT_ID }}/${{ env.MACOS_DMG_ARTIFACT_NAME }}
-          asset_name: ${{ env.MACOS_DMG_ARTIFACT_NAME }}
-          asset_content_type: application/octet-stream
 
   deploy-zip:
     # PROBLEM WITH ZIP DEPLOYMENT: Chrome may think it's malware! :(
@@ -283,27 +268,14 @@ jobs:
       - run: echo "Zip App for notarization as ./${MACOS_APP_ZIP}"
       - run: ditto -c -k --rsrc --keepParent "${DIST_DIR}/${MACOS_APP_ARTIFACT}" "${MACOS_APP_ZIP}"
 
-      - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Create Release and Upload Zip
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ env.BRANCH_OR_TAG_NAME }}
+          files: ./${{ env.MACOS_APP_ZIP }}
+          name: Release ${{ env.BRANCH_OR_TAG_NAME }}
+          draft: true
           body: |
             #### Changes in this Release
             TODO
-          draft: true
-          prerelease: false
-
-      - name: Upload Release Zip
-        id: upload-release-zip
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./${{ env.MACOS_APP_ZIP }}
-          asset_name: ${{ env.MACOS_APP_ZIP }}
-          asset_content_type: application/zip

@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-090a
 title: Add LICENSE file
-status: in-progress
+status: completed
 type: task
 priority: normal
 created_at: 2026-01-21T12:17:51Z
-updated_at: 2026-01-21T20:21:48Z
+updated_at: 2026-01-21T20:22:04Z
 ---
 
 Missing LICENSE file. Users don't know their usage rights.
