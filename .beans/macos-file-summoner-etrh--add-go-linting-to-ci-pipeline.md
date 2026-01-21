@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-etrh
 title: Add Go linting to CI pipeline
-status: in-progress
+status: completed
 type: feature
 priority: normal
 created_at: 2026-01-21T12:17:49Z
-updated_at: 2026-01-21T20:24:16Z
+updated_at: 2026-01-21T20:24:54Z
 ---
 
 No linting configured. Code quality issues can slip through undetected.
