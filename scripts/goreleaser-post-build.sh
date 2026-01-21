@@ -40,6 +40,10 @@ if [ "$SKIP_SIGNING" = true ]; then
     log "Skipping signing (no APPLE_DEVELOPER_ID_CODE)"
 else
     log "Step 2: Signing .app bundle"
+    log "Using identity: ${APPLE_DEVELOPER_ID_CODE}"
+    
+    log "Available signing identities:"
+    security find-identity -v -p codesigning || true
     
     find "$APP_PATH/Contents" -type f \( -name "*.dylib" -o -name "*.framework" \) \
         -exec codesign --force --timestamp --options runtime \
