@@ -1,11 +1,11 @@
 ---
 # macos-file-summoner-eg8h
 title: Add set -euo pipefail to all shell scripts
-status: todo
+status: in-progress
 type: bug
 priority: high
 created_at: 2026-01-21T12:17:07Z
-updated_at: 2026-01-21T12:17:07Z
+updated_at: 2026-01-21T20:19:02Z
 ---
 
 Shell scripts lack proper error handling. Missing 'set -e' means scripts continue after errors.

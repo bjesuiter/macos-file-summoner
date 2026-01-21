@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ### Dependencies for this script:
 ### - xcrun notarytool (automatically enabled in github actions macOS runners)    

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ###   Dependencies for this script       
 ### - an Apple Developer ID Certificate available inside macOS Keychain

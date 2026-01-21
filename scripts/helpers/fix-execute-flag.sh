@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # TODO: Improve script with failsafety of input path, 
 # see import-mysql.sh from flavia for that
