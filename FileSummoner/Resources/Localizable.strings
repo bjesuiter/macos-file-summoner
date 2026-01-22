@@ -1,0 +1,14 @@
+"app_title" = "File Summoner";
+"create_new_file" = "Create New File";
+"filename_label" = "Filename:";
+"filename_prompt" = "Enter filename:";
+"filename_placeholder" = "Enter filename";
+"button_create" = "Create";
+"button_cancel" = "Cancel";
+"button_ok" = "OK";
+"error_title" = "Error";
+"error_finder_path" = "Failed to get Finder path. Is a Finder window open?";
+"error_invalid_filename" = "Invalid filename. Avoid special characters like / \\ :";
+"error_file_exists" = "A file with this name already exists.";
+"error_permission_denied" = "Permission denied. Cannot write to this folder.";
+"error_create_failed" = "Failed to create file.";

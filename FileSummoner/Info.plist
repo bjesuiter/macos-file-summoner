@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>dev.bjesuiter.file-summoner</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>File Summoner</string>
+
+    <key>CFBundleVersion</key>
+    <string>2.0.0</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>2.0.0</string>
+
+    <key>LSUIElement</key>
+    <true/>
+
+    <key>NSHighResolutionCapable</key>
+    <true/>
+
+    <key>NSSupportsAutomaticTermination</key>
+    <false/>
+
+    <key>NSAppleEventsUsageDescription</key>
+    <string>File Summoner needs to communicate with Finder to detect the current folder.</string>
+</dict>
+</plist>

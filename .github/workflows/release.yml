@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app
+
+      - name: Install Apple Certificate
+        env:
+          APPLE_DEVELOPER_ID_CERT_P12: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12 }}
+          APPLE_DEVELOPER_ID_CERT_PASSWD: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
+        run: |
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          echo "$APPLE_DEVELOPER_ID_CERT_P12" | base64 --decode > certificate.p12
+          security import certificate.p12 -k build.keychain \
+            -P "$APPLE_DEVELOPER_ID_CERT_PASSWD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          rm certificate.p12
+
+      - name: Build
+        env:
+          APPLE_DEVELOPER_ID_CODE: ${{ secrets.APPLE_DEVELOPER_ID_CODE }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: ./scripts/build.sh
+
+      - name: Notarize
+        env:
+          APPLE_DEVELOPER_ID_NAME: ${{ secrets.APPLE_DEVELOPER_ID_NAME }}
+          APPLE_ACCOUNT_APP_PASSWORD: ${{ secrets.APPLE_ACCOUNT_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: ./scripts/notarize.sh "dist/File Summoner.app"
+
+      - name: Create DMG
+        env:
+          APPLE_DEVELOPER_ID_CODE: ${{ secrets.APPLE_DEVELOPER_ID_CODE }}
+        run: |
+          npm install -g create-dmg
+          ./scripts/create-dmg.sh "dist/File Summoner.app"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.dmg
+          generate_release_notes: true
