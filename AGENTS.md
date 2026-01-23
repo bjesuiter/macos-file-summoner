@@ -7,7 +7,7 @@ Guidelines for AI coding agents working in this repository.
 **Type**: macOS native app written in Go  
 **Purpose**: Create new files directly from Finder toolbar  
 **Architecture**: Single Go binary packaged as `.app` bundle
-**Tickets**: use `beans prime` once per session to get instructions on how to use the beans ticketing system in this repo.
+**Tooling**: The user already has many tools configured; if any required tool is missing, call it out explicitly.
 
 ## Directory Structure
 
