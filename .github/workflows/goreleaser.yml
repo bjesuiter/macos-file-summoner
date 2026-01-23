@@ -37,9 +37,6 @@ jobs:
       - name: Install create-dmg
         run: npm install -g create-dmg
 
-      - name: Install graphicsmagick and imagemagick (for DMG styling)
-        run: brew install graphicsmagick imagemagick
-
       - name: Run GoReleaser (Snapshot)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true'
         uses: goreleaser/goreleaser-action@v6
