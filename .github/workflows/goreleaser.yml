@@ -35,7 +35,7 @@ jobs:
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWD }}
 
       - name: Install create-dmg
-        run: npm install -g create-dmg
+        run: npm install -g create-dmg && create-dmg --version
 
       - name: Run GoReleaser (Snapshot)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true'
