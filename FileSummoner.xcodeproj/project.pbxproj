@@ -1,0 +1,403 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3947CD8062794591BCE4408D /* FileSummonerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FF0091C8C54387B4A94E19 /* FileSummonerApp.swift */; };
+		D6BA2745E25745AA9907D7AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C79A1A43824D919302CA7D /* AppDelegate.swift */; };
+		734FF8241084468F8CA98800 /* FileCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFE5F4083F74B65B0A27B42 /* FileCreationView.swift */; };
+		D919FBC045914C67BB271A33 /* FinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD51AFDD6324ED0990833FE /* FinderService.swift */; };
+		F8FD27DAD63A46F7B8B44B16 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271CBE3A6254686819E4C60 /* AlertService.swift */; };
+		17745146AEF549CEA8865A7A /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA406DC6C2B4F67BC85E16A /* FileService.swift */; };
+		03BFA4CA431A4CE7997C7EC5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CE014BFBF274B86AD01260F /* Localizable.strings */; };
+		AF4C6743A5304C53B1F09D1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0BD1C1455704DAE8F180F48 /* Assets.xcassets */; };
+		BF115F87664E4AC797FB17FF /* FileServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD327AE2871648528854306B /* FileServiceTests.swift */; };
+		5D3267177C10458096A00BDD /* FinderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E7C7C270224B13B5AF3715 /* FinderServiceTests.swift */; };
+		42C3074D32714B52BF7FEACE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B7BFEED1984B698C3ED77F /* XCTest.framework */; };
+		C120ACA4A6B44123B0E880BA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F20112DA35A43E597741DD0 /* AppKit.framework */; };
+		95F9EBA4138043BC8C3BEBEC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3178CD18BDB54537ABF51069 /* SwiftUI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DB4E03CDE31E4C2AB37EC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9CDB285CB88C403CAEF0AC52 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B3DD15A24C0A4DABBA5FA302;
+			remoteInfo = FileSummoner;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C8FF0091C8C54387B4A94E19 /* FileSummonerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSummonerApp.swift; sourceTree = "<group>"; };
+		62C79A1A43824D919302CA7D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6CFE5F4083F74B65B0A27B42 /* FileCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCreationView.swift; sourceTree = "<group>"; };
+		1AD51AFDD6324ED0990833FE /* FinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderService.swift; sourceTree = "<group>"; };
+		2271CBE3A6254686819E4C60 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
+		CBA406DC6C2B4F67BC85E16A /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		4CE014BFBF274B86AD01260F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		D0BD1C1455704DAE8F180F48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E49E3BFD34DF4963B8E7F74B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B4474BFE4FF42E3A7AA5596 /* FileSummoner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FileSummoner.entitlements; sourceTree = "<group>"; };
+		FD327AE2871648528854306B /* FileServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileServiceTests.swift; sourceTree = "<group>"; };
+		86E7C7C270224B13B5AF3715 /* FinderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderServiceTests.swift; sourceTree = "<group>"; };
+		9511B30C13C140DA9C128DD3 /* FileSummoner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "FileSummoner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B865F375BC9947FB86BD4F94 /* FileSummonerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FileSummonerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		87B7BFEED1984B698C3ED77F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		8F20112DA35A43E597741DD0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		3178CD18BDB54537ABF51069 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F502CF72C9C347B2A672DE3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C120ACA4A6B44123B0E880BA /* AppKit.framework in Frameworks */,
+				95F9EBA4138043BC8C3BEBEC /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB564BC7F7244C5A96ACD538 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42C3074D32714B52BF7FEACE /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4097EE949F3D473AA49B3A37 = {
+			isa = PBXGroup;
+			children = (
+				A83EF502C6C64E62ABF6A76E /* FileSummoner */,
+				AEBDC89DE8F0428CBF4026D2 /* FileSummonerTests */,
+				E34733B89A0245BEBFDD1DB9 /* Frameworks */,
+				CD35B8962DCF494BABB46E1E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A83EF502C6C64E62ABF6A76E /* FileSummoner */ = {
+			isa = PBXGroup;
+			children = (
+				62C79A1A43824D919302CA7D /* AppDelegate.swift */,
+				C8FF0091C8C54387B4A94E19 /* FileSummonerApp.swift */,
+				9ABCDEF0123456789ABCDEF0 /* Services */,
+				B05D44F818A849369C86714B /* Views */,
+				A21B72579CD6464B9BC31EE2 /* Resources */,
+				E49E3BFD34DF4963B8E7F74B /* Info.plist */,
+				5B4474BFE4FF42E3A7AA5596 /* FileSummoner.entitlements */,
+			);
+			path = FileSummoner;
+			sourceTree = "<group>";
+		};
+		9ABCDEF0123456789ABCDEF0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2271CBE3A6254686819E4C60 /* AlertService.swift */,
+				CBA406DC6C2B4F67BC85E16A /* FileService.swift */,
+				1AD51AFDD6324ED0990833FE /* FinderService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B05D44F818A849369C86714B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6CFE5F4083F74B65B0A27B42 /* FileCreationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A21B72579CD6464B9BC31EE2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4CE014BFBF274B86AD01260F /* Localizable.strings */,
+				D0BD1C1455704DAE8F180F48 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AEBDC89DE8F0428CBF4026D2 /* FileSummonerTests */ = {
+			isa = PBXGroup;
+			children = (
+				FD327AE2871648528854306B /* FileServiceTests.swift */,
+				86E7C7C270224B13B5AF3715 /* FinderServiceTests.swift */,
+			);
+			path = FileSummonerTests;
+			sourceTree = "<group>";
+		};
+		E34733B89A0245BEBFDD1DB9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F20112DA35A43E597741DD0 /* AppKit.framework */,
+				3178CD18BDB54537ABF51069 /* SwiftUI.framework */,
+				87B7BFEED1984B698C3ED77F /* XCTest.framework */,
+			);
+			sourceTree = "<group>";
+		};
+		CD35B8962DCF494BABB46E1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9511B30C13C140DA9C128DD3 /* FileSummoner.app */,
+				B865F375BC9947FB86BD4F94 /* FileSummonerTests.xctest */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B3DD15A24C0A4DABBA5FA302 /* FileSummoner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 809E293F64FF4212A5D719B0 /* Build configuration list for PBXNativeTarget "FileSummoner" */;
+			buildPhases = (
+				378DBC2F3AF840EAA1521554 /* Sources */,
+				CE3C2386E7E84337B9ABBA9A /* Resources */,
+				F502CF72C9C347B2A672DE3A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FileSummoner;
+			productName = FileSummoner;
+			productReference = 9511B30C13C140DA9C128DD3 /* FileSummoner.app */;
+			productType = "com.apple.product-type.application";
+		};
+		82B5B344D3D14A44A9ED98FD /* FileSummonerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12C75C0D63E541E1A739CAE2 /* Build configuration list for PBXNativeTarget "FileSummonerTests" */;
+			buildPhases = (
+				1353659261AD40DB90E44A5A /* Sources */,
+				263DD0C4F3B64530A458807E /* Resources */,
+				DB564BC7F7244C5A96ACD538 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B93EB23B921C4AF69B048C7F /* PBXTargetDependency */,
+			);
+			name = FileSummonerTests;
+			productName = FileSummonerTests;
+			productReference = B865F375BC9947FB86BD4F94 /* FileSummonerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9CDB285CB88C403CAEF0AC52 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					82B5B344D3D14A44A9ED98FD = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					B3DD15A24C0A4DABBA5FA302 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 159D71FA4230411892B0FC85 /* Build configuration list for PBXProject "FileSummoner" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4097EE949F3D473AA49B3A37;
+			productRefGroup = CD35B8962DCF494BABB46E1E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B3DD15A24C0A4DABBA5FA302 /* FileSummoner */,
+				82B5B344D3D14A44A9ED98FD /* FileSummonerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE3C2386E7E84337B9ABBA9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03BFA4CA431A4CE7997C7EC5 /* Localizable.strings in Resources */,
+				AF4C6743A5304C53B1F09D1B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		263DD0C4F3B64530A458807E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		378DBC2F3AF840EAA1521554 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6BA2745E25745AA9907D7AC /* AppDelegate.swift in Sources */,
+				3947CD8062794591BCE4408D /* FileSummonerApp.swift in Sources */,
+				D919FBC045914C67BB271A33 /* FinderService.swift in Sources */,
+				F8FD27DAD63A46F7B8B44B16 /* AlertService.swift in Sources */,
+				17745146AEF549CEA8865A7A /* FileService.swift in Sources */,
+				734FF8241084468F8CA98800 /* FileCreationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1353659261AD40DB90E44A5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF115F87664E4AC797FB17FF /* FileServiceTests.swift in Sources */,
+				5D3267177C10458096A00BDD /* FinderServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B93EB23B921C4AF69B048C7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B3DD15A24C0A4DABBA5FA302 /* FileSummoner */;
+			targetProxy = DB4E03CDE31E4C2AB37EC45B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D4DF77D06C44794943F92A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3A8FBEF9C7364D22A1BAC017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A5A516D1F2B54711B53A92C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FileSummoner/FileSummoner.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2.0.0;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = FileSummoner/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.bjesuiter.file-summoner;
+				PRODUCT_NAME = FileSummoner;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		35D278886C8440999AFCD90D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FileSummoner/FileSummoner.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2.0.0;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = FileSummoner/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.bjesuiter.file-summoner;
+				PRODUCT_NAME = FileSummoner;
+				SWIFT_OPTIMIZATION_LEVEL = -Owholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A053FD45243E4B0EA99B60AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2.0.0;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.bjesuiter.file-summoner.tests;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FileSummoner.app/Contents/MacOS/FileSummoner";
+			};
+			name = Debug;
+		};
+		EFF682FD87EE43FDB0155F8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2.0.0;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.bjesuiter.file-summoner.tests;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FileSummoner.app/Contents/MacOS/FileSummoner";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		159D71FA4230411892B0FC85 /* Build configuration list for PBXProject "FileSummoner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D4DF77D06C44794943F92A8 /* Debug */,
+				3A8FBEF9C7364D22A1BAC017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		809E293F64FF4212A5D719B0 /* Build configuration list for PBXNativeTarget "FileSummoner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5A516D1F2B54711B53A92C9 /* Debug */,
+				35D278886C8440999AFCD90D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12C75C0D63E541E1A739CAE2 /* Build configuration list for PBXNativeTarget "FileSummonerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A053FD45243E4B0EA99B60AE /* Debug */,
+				EFF682FD87EE43FDB0155F8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9CDB285CB88C403CAEF0AC52 /* Project object */;
+}
